@@ -11,8 +11,14 @@ const create = async (blog) => {
   return response.data
 }
 
+const del = async (id) => {
+  const url = `${baseUrl}/${id}`
+  const response = await axios.delete(url, headers())
+  return response.data
+}
+
 const headers = () => {
-  const { token } = window.localStorage.getItem('user')
+  const { token } =  JSON.parse(window.localStorage.getItem('user'))
   return {
     headers: {
       Authorization: `Bearer ${token}`
@@ -20,4 +26,8 @@ const headers = () => {
   }
 }
 
-export default { getAll }
+export default { 
+  getAll,
+  create,
+  del 
+}

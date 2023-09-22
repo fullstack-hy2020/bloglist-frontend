@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
 import blogsService from '../services/blogs'
+import Notification from "./Notification"
 
-const Blog = ({ blog }) => <div> {blog.title} {blog.author} </div>
+const Blog = ({ blog, deleteBlog }) => <div> {blog.title} {blog.author} <button onClick={deleteBlog(blog.id)}>delete</button></div>
 
 const Blogs = () => {
   const [blogs, setBlogs]  = useState([])
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notification, setNotification] = useState('')
 
   useEffect(() => {
     blogsService.getAll()
@@ -16,10 +18,40 @@ const Blogs = () => {
 
   const create = async event => {
     event.preventDefault()
-    console.log('create new blog!')
-    console.log(title)
-    console.log(author)
-    console.log(url)
+
+    const newBlog = {
+      title,
+      author,
+      url
+    }
+
+    try {
+      const blog = await blogsService.create(newBlog)
+
+      const newBlogs = [
+        ...blogs,
+        blog
+      ]
+
+      setBlogs(newBlogs)
+      setNotification(<Notification type={'success'} message={'Blog created successfully'} />)
+    }catch{
+      setNotification(<Notification type={'error'} message={'Failed to create blog'} />)
+    }
+  }
+
+  const deleteBlog = (id) => async () => {
+    
+    try {
+      await blogsService.del(id)
+
+      const newBlogs = blogs.filter(blog => blog.id !== id)
+
+      setBlogs(newBlogs)
+      setNotification(<Notification type={'success'} message={'Blog deleted successfully'} />)
+    }catch{
+      setNotification(<Notification type={'error'} message={'Failed to delete blog'} />)
+    }
   }
 
   const handleChange = (callback) => (event) => callback(event.target.value)
@@ -27,6 +59,7 @@ const Blogs = () => {
   return (
     <div>
       <h3>New Blog</h3>
+      <div>{notification}</div>
       <form onSubmit={create}>
         <div>
           Title:
@@ -56,7 +89,7 @@ const Blogs = () => {
       </form>
       <h3>Saved Blogs</h3>
       <div>
-        {blogs.map(blog => <Blog key={blog.title} blog={blog} />)}
+        {blogs.map(blog => <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog}/>)}
       </div>
     </div>
   )
