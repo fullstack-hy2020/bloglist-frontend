@@ -6,12 +6,12 @@ const Blog = ({ blog }) => <div> {blog.title} {blog.author} </div>
 const Blogs = ({ token }) => {
   const [blogs, setBlogs]  = useState([])
 
-  useEffect(async () => {
-    const blogs = await blogsService.getAll(token)
-    setBlogs(blogs)
+  useEffect(() => {
+    blogsService.getAll(token)
+      .then(blogs => setBlogs(blogs))
   }, [])
 
-  return blogs.map(blog => <Blog blog={blog} />)
+  return blogs.map(blog => <Blog key={blog.title} blog={blog} />)
 }
 
 export default Blogs

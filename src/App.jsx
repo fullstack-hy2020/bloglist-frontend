@@ -8,7 +8,7 @@ const App = () => {
 
   useEffect(() => {
     if(loggedIn){
-      setEntrypoint(<Dashboard />)
+      setEntrypoint(<Dashboard setLoggedIn={setLoggedIn}/>)
     }else{
       setEntrypoint(<Login setLoggedIn={setLoggedIn}/>)
     }

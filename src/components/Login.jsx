@@ -7,7 +7,7 @@ const Login = ({ setLoggedIn }) => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
-  const login = async (event) => {
+  const login = async event => {
     event.preventDefault()
 
     try {
@@ -48,7 +48,7 @@ const Login = ({ setLoggedIn }) => {
             onChange={handleChange(setPassword)}
             value={password}/>
         </div>
-        <button onClick={login}>login</button>
+        <button type='submit'>login</button>
       </form>
     </div>
   )
