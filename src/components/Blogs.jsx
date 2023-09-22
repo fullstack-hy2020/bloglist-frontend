@@ -1,28 +1,23 @@
 import { useEffect, useState } from "react"
 import blogsService from '../services/blogs'
 import Notification from "./Notification"
+import Togglable from "./Togglable"
 
 const Blog = ({ blog, deleteBlog }) => <div> {blog.title} {blog.author} <button onClick={deleteBlog(blog.id)}>delete</button></div>
 
-const Blogs = () => {
-  const [blogs, setBlogs]  = useState([])
+const notify = (type, message, setNotification) => {
+  setNotification(<Notification type={type} message={message} />)
+
+  setTimeout(() => {
+    setNotification('')
+  }, 3000)
+}
+
+const NewBlog = ({ setBlogs, existingBlogs }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [notification, setNotification] = useState('')
-
-  useEffect(() => {
-    blogsService.getAll()
-      .then(blogs => setBlogs(blogs))
-  }, [])
-
-  const notify = (type, message) => {
-    setNotification(<Notification type={type} message={message} />)
-
-    setTimeout(() => {
-      setNotification('')
-    }, 3000)
-  }
 
   const create = async event => {
     event.preventDefault()
@@ -34,30 +29,18 @@ const Blogs = () => {
     }
 
     try {
+      console.log(newBlog)
       const blog = await blogsService.create(newBlog)
 
       const newBlogs = [
-        ...blogs,
+        ...existingBlogs,
         blog
       ]
 
       setBlogs(newBlogs)
-      notify('success', 'Blog created successfully')
+      notify('success', 'Blog created successfully', setNotification)
     }catch{
-      notify('error', 'Failed to create blog')
-    }
-  }
-
-  const deleteBlog = (id) => async () => {
-    try {
-      await blogsService.del(id)
-
-      const newBlogs = blogs.filter(blog => blog.id !== id)
-
-      setBlogs(newBlogs)
-      notify('success', 'Blog delete successfully')
-    }catch{
-      notify('error', 'Failed to delete blog')
+      notify('error', 'Failed to create blog', setNotification)
     }
   }
 
@@ -93,8 +76,40 @@ const Blogs = () => {
             value={url}/>
         </div>
         <button type='submit'>create</button>
-      </form>
+        </form>
+    </div>
+  )
+}
+
+const Blogs = () => {
+  const [blogs, setBlogs]  = useState([])
+  const [notification, setNotification] = useState('')
+
+  useEffect(() => {
+    blogsService.getAll()
+      .then(blogs => setBlogs(blogs))
+  }, [])
+
+  const deleteBlog = (id) => async () => {
+    try {
+      await blogsService.del(id)
+
+      const newBlogs = blogs.filter(blog => blog.id !== id)
+
+      setBlogs(newBlogs)
+      notify('success', 'Blog delete successfully', setNotification)
+    }catch{
+      notify('error', 'Failed to delete blog', setNotification)
+    }
+  }
+
+  return (
+    <div>
+      <Togglable buttonLabel={'New Blog'}>
+        <NewBlog setBlogs={setBlogs} existingBlogs={blogs} />
+      </Togglable>
       <h3>Saved Blogs</h3>
+      <div>{notification}</div>
       <div>
         {blogs.map(blog => <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog}/>)}
       </div>
