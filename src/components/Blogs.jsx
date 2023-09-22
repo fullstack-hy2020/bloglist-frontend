@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import blogsService from '../services/blogs'
 import Notification from "./Notification"
 import Togglable from "./Togglable"
@@ -18,6 +18,15 @@ const NewBlog = ({ setBlogs, existingBlogs }) => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [notification, setNotification] = useState('')
+
+  const newBlogRef = useRef()
+
+  const clearInputs = () => {
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+    newBlogRef.current.toggleVisibility()
+  }
 
   const create = async event => {
     event.preventDefault()
@@ -39,6 +48,7 @@ const NewBlog = ({ setBlogs, existingBlogs }) => {
 
       setBlogs(newBlogs)
       notify('success', 'Blog created successfully', setNotification)
+      clearInputs()
     }catch{
       notify('error', 'Failed to create blog', setNotification)
     }
@@ -48,35 +58,38 @@ const NewBlog = ({ setBlogs, existingBlogs }) => {
 
   return (
     <div>
-      <h3>New Blog</h3>
-      <div>{notification}</div>
-      <form onSubmit={create}>
-        <div>
-          Title:
-          <input 
-            type='text'
-            name='title'
-            onChange={handleChange(setTitle)}
-            value={title}/>
-        </div>
-        <div>
-          Author:
-          <input 
-            type='text'
-            name='author'
-            onChange={handleChange(setAuthor)}
-            value={author}/>
-        </div>
-        <div>
-          Url:
-          <input 
-            type='url'
-            name='url'
-            onChange={handleChange(setUrl)}
-            value={url}/>
-        </div>
-        <button type='submit'>create</button>
+      {notification}
+      <Togglable buttonLabel={'New Blog'} ref={newBlogRef}>
+        <h3>New Blog</h3>
+        
+        <form onSubmit={create}>
+          <div>
+            Title:
+            <input 
+              type='text'
+              name='title'
+              onChange={handleChange(setTitle)}
+              value={title}/>
+          </div>
+          <div>
+            Author:
+            <input 
+              type='text'
+              name='author'
+              onChange={handleChange(setAuthor)}
+              value={author}/>
+          </div>
+          <div>
+            Url:
+            <input 
+              type='url'
+              name='url'
+              onChange={handleChange(setUrl)}
+              value={url}/>
+          </div>
+          <button type='submit'>create</button>
         </form>
+      </Togglable>
     </div>
   )
 }
@@ -105,9 +118,7 @@ const Blogs = () => {
 
   return (
     <div>
-      <Togglable buttonLabel={'New Blog'}>
-        <NewBlog setBlogs={setBlogs} existingBlogs={blogs} />
-      </Togglable>
+      <NewBlog setBlogs={setBlogs} existingBlogs={blogs} />
       <h3>Saved Blogs</h3>
       <div>{notification}</div>
       <div>
