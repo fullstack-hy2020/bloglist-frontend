@@ -3,14 +3,14 @@ import blogsService from '../services/blogs'
 
 const Blog = ({ blog }) => <div> {blog.title} {blog.author} </div>
 
-const Blogs = ({ token }) => {
+const Blogs = () => {
   const [blogs, setBlogs]  = useState([])
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
   useEffect(() => {
-    blogsService.getAll(token)
+    blogsService.getAll()
       .then(blogs => setBlogs(blogs))
   }, [])
 

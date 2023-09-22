@@ -2,11 +2,11 @@ import { useEffect, useState } from "react"
 import Blogs from './Blogs'
 
 const Dashboard = ({ setLoggedIn }) => {
-  const [user, setUser] = useState('')
+  const [name, setName] = useState('')
 
   useEffect(() => {
-    const user = JSON.parse(window.localStorage.getItem('user'))
-    setUser(user)
+    const { name } = JSON.parse(window.localStorage.getItem('user'))
+    setName(name)
   }, [])
 
   const logout = event => {
@@ -19,9 +19,9 @@ const Dashboard = ({ setLoggedIn }) => {
     <div>
       <h2>Blogs Dashboard</h2>
       <div>
-        {user.name} logged in <button onClick={logout}>logout</button>
+        {name} logged in <button onClick={logout}>logout</button>
       </div>
-      <Blogs token={user.token} />
+      <Blogs />
     </div>
   )
 }
