@@ -10,6 +10,8 @@ const Login = ({ setUser }) => {
     const user = await loginService
       .login(username, password)
 
+    window.localStorage.setItem('user', JSON.stringify(user))
+
     setUser(user)
   }
 
