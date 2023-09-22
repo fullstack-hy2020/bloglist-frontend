@@ -16,6 +16,14 @@ const Blogs = () => {
       .then(blogs => setBlogs(blogs))
   }, [])
 
+  const notify = (type, message) => {
+    setNotification(<Notification type={type} message={message} />)
+
+    setTimeout(() => {
+      setNotification('')
+    }, 3000)
+  }
+
   const create = async event => {
     event.preventDefault()
 
@@ -34,23 +42,22 @@ const Blogs = () => {
       ]
 
       setBlogs(newBlogs)
-      setNotification(<Notification type={'success'} message={'Blog created successfully'} />)
+      notify('success', 'Blog created successfully')
     }catch{
-      setNotification(<Notification type={'error'} message={'Failed to create blog'} />)
+      notify('error', 'Failed to create blog')
     }
   }
 
   const deleteBlog = (id) => async () => {
-    
     try {
       await blogsService.del(id)
 
       const newBlogs = blogs.filter(blog => blog.id !== id)
 
       setBlogs(newBlogs)
-      setNotification(<Notification type={'success'} message={'Blog deleted successfully'} />)
+      notify('success', 'Blog delete successfully')
     }catch{
-      setNotification(<Notification type={'error'} message={'Failed to delete blog'} />)
+      notify('error', 'Failed to delete blog')
     }
   }
 
