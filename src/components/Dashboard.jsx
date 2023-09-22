@@ -17,7 +17,7 @@ const Dashboard = ({ setLoggedIn }) => {
 
   return (
     <div>
-      <h2>Blogs</h2>
+      <h2>Blogs Dashboard</h2>
       <div>
         {user.name} logged in <button onClick={logout}>logout</button>
       </div>

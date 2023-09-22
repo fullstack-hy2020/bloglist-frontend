@@ -33,7 +33,7 @@ const Login = ({ setLoggedIn }) => {
       <div>{error}</div>
       <form onSubmit={login}>
         <div>
-          username 
+          Username: 
           <input 
             type='text'
             name='Username'
@@ -41,7 +41,7 @@ const Login = ({ setLoggedIn }) => {
             value={username}/>
         </div>
         <div>
-          password
+          Password:
           <input 
             type='password'
             name='Password'
