@@ -1,17 +1,20 @@
 import { useState, useEffect } from 'react'
-import Blog from './components/Blog'
+import Dashboard from './components/Dashboard'
 import Login from './components/Login'
-import blogService from './services/blogs'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  const [user, setUser] = useState('')
+  const [entrypoint, setEntrypoint] = useState('')
 
-  return (
-    <div>
-      <h2>blogs</h2>
-      <Login />
-    </div>
-  )
+  useEffect(() => {
+    if(user !== ''){
+      setEntrypoint(<Dashboard user={user}/>)
+    }else{
+      setEntrypoint(<Login setUser={setUser}/>)
+    }
+  }, [user])
+
+  return entrypoint
 }
 
 export default App
