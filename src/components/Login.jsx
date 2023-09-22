@@ -1,12 +1,16 @@
 import { useState } from 'react'
+import loginService from '../services/login'
 
-const Login = () => {
+const Login = ({ setUser }) => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
 
-  const handleLogin = (event) => {
+  const login = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
+    const user = await loginService
+      .login(username, password)
+
+    setUser(user)
   }
 
   const handleChange = (callback) => (event) => callback(event.target.value)
@@ -14,7 +18,7 @@ const Login = () => {
   return (
     <div>
       <h3>Log in</h3>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={login}>
         <div>
           username 
           <input 
@@ -31,7 +35,7 @@ const Login = () => {
             onChange={handleChange(setPassword)}
             value={password}/>
         </div>
-        <button onClick={handleLogin}>login</button>
+        <button onClick={login}>login</button>
       </form>
     </div>
   )
