@@ -3,16 +3,16 @@ import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 
 const App = () => {
-  const [user, setUser] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false)
   const [entrypoint, setEntrypoint] = useState('')
 
   useEffect(() => {
-    if(user !== ''){
+    if(loggedIn){
       setEntrypoint(<Dashboard />)
     }else{
-      setEntrypoint(<Login setUser={setUser}/>)
+      setEntrypoint(<Login setLoggedIn={setLoggedIn}/>)
     }
-  }, [user])
+  }, [loggedIn])
 
   return entrypoint
 }
