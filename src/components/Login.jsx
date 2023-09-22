@@ -1,25 +1,36 @@
 import { useState } from 'react'
 import loginService from '../services/login'
+import Notification from './Notification'
 
-const Login = ({ setUser }) => {
+const Login = ({ setLoggedIn }) => {
   const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   const login = async (event) => {
     event.preventDefault()
-    const user = await loginService
-      .login(username, password)
 
-    window.localStorage.setItem('user', JSON.stringify(user))
+    try {
+      const user = await loginService
+        .login(username, password)
+        
+      window.localStorage.setItem('user', JSON.stringify(user))
+      setLoggedIn(true)
+    } catch (error) {
+      setError(<Notification type={'error'} message={'Invalid username or password. Try again.'} />)
 
-    setUser(user)
+      setTimeout(() => {
+        setError('')
+      }, 3000)
+    }
   }
 
   const handleChange = (callback) => (event) => callback(event.target.value)
 
   return (
     <div>
-      <h3>Log in</h3>
+      <h2>Log in</h2>
+      <div>{error}</div>
       <form onSubmit={login}>
         <div>
           username 
