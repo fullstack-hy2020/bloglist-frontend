@@ -6,6 +6,7 @@ import Togglable from "./Togglable"
 const Blog = ({ blog, deleteBlog }) => {
   const [detailedView, setDetailedView] = useState(false)
   const [content, setContent] = useState('')
+  const [likes, setLikes] = useState(blog.likes)
 
   const blogStyle = {
     paddingTop: 10,
@@ -19,13 +20,14 @@ const Blog = ({ blog, deleteBlog }) => {
     setDetailedView(!detailedView)
   }
 
-  const like = id => () => {
-    console.log('increment like count by 1')
+  const like = blog => async () => {
+    await blogsService.update(blog.id, { likes: ++blog.likes })
+    setLikes(blog.likes)
   }
 
   useEffect(() => {
     let content = ''
-    
+
     if(detailedView){
       content = 
         <div style={blogStyle}>
@@ -36,7 +38,7 @@ const Blog = ({ blog, deleteBlog }) => {
             {blog.url}
           </div>
           <div>
-            {blog.likes} <button onClick={like(blog.id)}>like</button>
+            {likes} <button onClick={like(blog)}>like</button>
           </div>
           <div>
             {blog.user.name}
@@ -51,7 +53,7 @@ const Blog = ({ blog, deleteBlog }) => {
     }
 
     setContent(content)
-  }, [detailedView])
+  }, [detailedView, likes])
 
   return content
 }
@@ -89,7 +91,6 @@ const NewBlog = ({ setBlogs, existingBlogs }) => {
     }
 
     try {
-      console.log(newBlog)
       const blog = await blogsService.create(newBlog)
 
       const newBlogs = [
