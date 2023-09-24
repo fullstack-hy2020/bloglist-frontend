@@ -14,7 +14,6 @@ const create = async (blog) => {
 const update = async (id, data) => {
   const url = `${baseUrl}/${id}`
   const response = await axios.put(url, data, headers())
-  console.log(response.data)
   return response.data
 }
 
