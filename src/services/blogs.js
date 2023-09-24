@@ -32,9 +32,9 @@ const headers = () => {
   }
 }
 
-export default { 
+export default {
   getAll,
   create,
   update,
-  del 
+  del
 }

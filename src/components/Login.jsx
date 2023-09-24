@@ -3,7 +3,7 @@ import loginService from '../services/login'
 import Notification from './Notification'
 
 const Login = ({ setLoggedIn }) => {
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
@@ -13,7 +13,7 @@ const Login = ({ setLoggedIn }) => {
     try {
       const user = await loginService
         .login(username, password)
-        
+
       window.localStorage.setItem('user', JSON.stringify(user))
       setLoggedIn(true)
     } catch (error) {
@@ -33,8 +33,8 @@ const Login = ({ setLoggedIn }) => {
       <div>{error}</div>
       <form onSubmit={login}>
         <div>
-          Username: 
-          <input 
+          Username:
+          <input
             type='text'
             name='Username'
             onChange={handleChange(setUsername)}
@@ -42,7 +42,7 @@ const Login = ({ setLoggedIn }) => {
         </div>
         <div>
           Password:
-          <input 
+          <input
             type='password'
             name='Password'
             onChange={handleChange(setPassword)}

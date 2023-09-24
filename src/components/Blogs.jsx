@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from "react"
-import _ from "lodash"
+import { useEffect, useState, useRef } from 'react'
+import _ from 'lodash'
 import blogsService from '../services/blogs'
-import Notification from "./Notification"
-import Togglable from "./Togglable"
+import Notification from './Notification'
+import Togglable from './Togglable'
 
 const Blog = ({ blog, deleteBlog }) => {
   const [detailedView, setDetailedView] = useState(false)
@@ -30,7 +30,7 @@ const Blog = ({ blog, deleteBlog }) => {
     let content = ''
 
     if(detailedView){
-      content = 
+      content =
         <div style={blogStyle}>
           <div>
             {blog.title} {blog.author} <button onClick={toggleDetails}>hide</button>
@@ -47,7 +47,7 @@ const Blog = ({ blog, deleteBlog }) => {
           <button onClick={deleteBlog(blog)}>remove</button>
         </div>
     }else{
-      content = 
+      content =
         <div style={blogStyle}>
           {blog.title} {blog.author} <button onClick={toggleDetails}>view</button>
         </div>
@@ -114,11 +114,11 @@ const NewBlog = ({ setBlogs, existingBlogs }) => {
       {notification}
       <Togglable buttonLabel={'New Blog'} ref={newBlogRef}>
         <h3>New Blog</h3>
-        
+
         <form onSubmit={create}>
           <div>
             Title:
-            <input 
+            <input
               type='text'
               name='title'
               onChange={handleChange(setTitle)}
@@ -126,7 +126,7 @@ const NewBlog = ({ setBlogs, existingBlogs }) => {
           </div>
           <div>
             Author:
-            <input 
+            <input
               type='text'
               name='author'
               onChange={handleChange(setAuthor)}
@@ -134,7 +134,7 @@ const NewBlog = ({ setBlogs, existingBlogs }) => {
           </div>
           <div>
             Url:
-            <input 
+            <input
               type='url'
               name='url'
               onChange={handleChange(setUrl)}
@@ -161,9 +161,9 @@ const Blogs = () => {
       const id = blog.id
       try {
         await blogsService.del(id)
-  
+
         const newBlogs = blogs.filter(blog => blog.id !== id)
-  
+
         setBlogs(newBlogs)
         notify('success', 'Blog deleted successfully', setNotification)
       }catch{
