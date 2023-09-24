@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react"
+import _ from "lodash"
 import blogsService from '../services/blogs'
 import Notification from "./Notification"
 import Togglable from "./Togglable"
@@ -152,7 +153,7 @@ const Blogs = () => {
 
   useEffect(() => {
     blogsService.getAll()
-      .then(blogs => setBlogs(blogs))
+      .then(blogs => setBlogs(_.orderBy(blogs, 'likes', 'desc')))
   }, [])
 
   const deleteBlog = blog => async () => {
