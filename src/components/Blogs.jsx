@@ -3,7 +3,58 @@ import blogsService from '../services/blogs'
 import Notification from "./Notification"
 import Togglable from "./Togglable"
 
-const Blog = ({ blog, deleteBlog }) => <div> {blog.title} {blog.author} <button onClick={deleteBlog(blog.id)}>delete</button></div>
+const Blog = ({ blog, deleteBlog }) => {
+  const [detailedView, setDetailedView] = useState(false)
+  const [content, setContent] = useState('')
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  }
+
+  const toggleDetails = () => {
+    setDetailedView(!detailedView)
+  }
+
+  const like = id => () => {
+    console.log('increment like count by 1')
+  }
+
+  useEffect(() => {
+    let content = ''
+    
+    if(detailedView){
+      content = 
+        <div style={blogStyle}>
+          <div>
+            {blog.title} {blog.author} <button onClick={toggleDetails}>hide</button>
+          </div>
+          <div>
+            {blog.url}
+          </div>
+          <div>
+            {blog.likes} <button onClick={like(blog.id)}>like</button>
+          </div>
+          <div>
+            {blog.user.name}
+          </div>
+          <button onClick={deleteBlog(blog)}>remove</button>
+        </div>
+    }else{
+      content = 
+        <div style={blogStyle}>
+          {blog.title} {blog.author} <button onClick={toggleDetails}>view</button>
+        </div>
+    }
+
+    setContent(content)
+  }, [detailedView])
+
+  return content
+}
 
 const notify = (type, message, setNotification) => {
   setNotification(<Notification type={type} message={message} />)
@@ -103,16 +154,19 @@ const Blogs = () => {
       .then(blogs => setBlogs(blogs))
   }, [])
 
-  const deleteBlog = (id) => async () => {
-    try {
-      await blogsService.del(id)
-
-      const newBlogs = blogs.filter(blog => blog.id !== id)
-
-      setBlogs(newBlogs)
-      notify('success', 'Blog delete successfully', setNotification)
-    }catch{
-      notify('error', 'Failed to delete blog', setNotification)
+  const deleteBlog = blog => async () => {
+    if(window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)){
+      const id = blog.id
+      try {
+        await blogsService.del(id)
+  
+        const newBlogs = blogs.filter(blog => blog.id !== id)
+  
+        setBlogs(newBlogs)
+        notify('success', 'Blog deleted successfully', setNotification)
+      }catch{
+        notify('error', 'Failed to delete blog', setNotification)
+      }
     }
   }
 
