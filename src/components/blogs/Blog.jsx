@@ -6,6 +6,8 @@ const Blog = ({ blog, deleteBlog }) => {
   const [content, setContent] = useState('')
   const [likes, setLikes] = useState(blog.likes)
 
+  const className = 'blog'
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -28,7 +30,7 @@ const Blog = ({ blog, deleteBlog }) => {
 
     if(detailedView){
       content =
-        <div style={blogStyle}>
+        <div style={blogStyle} className={className}>
           <div>
             {blog.title} {blog.author} <button onClick={toggleDetails}>hide</button>
           </div>
@@ -45,7 +47,7 @@ const Blog = ({ blog, deleteBlog }) => {
         </div>
     }else{
       content =
-        <div style={blogStyle}>
+        <div style={blogStyle} className={className}>
           {blog.title} {blog.author} <button onClick={toggleDetails}>view</button>
         </div>
     }
