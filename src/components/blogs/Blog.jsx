@@ -19,7 +19,7 @@ const Blog = ({ blog, deleteBlog, likeBlog }) => {
     setDetailedView(!detailedView)
   }
 
-  const like = (blog, likeBlog) => async () => {
+  const like = blog => async () => {
     blog.likes++
     await likeBlog(blog)
     setLikes(blog.likes)
@@ -40,7 +40,7 @@ const Blog = ({ blog, deleteBlog, likeBlog }) => {
           <div className={`${className}-likes`}>
             {likes}
           </div>
-          <button onClick={like(blog, likeBlog)}>like</button>
+          <button onClick={like(blog)}>like</button>
           <div className={`${className}-user`}>
             {blog.user.name}
           </div>

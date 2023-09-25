@@ -4,7 +4,7 @@ import blogsService from '../../services/blogs'
 import Togglable from '../shared/Togglable'
 import Notification from '../shared/Notification'
 
-const BlogForm = ({ setBlogs, existingBlogs }) => {
+const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -32,7 +32,7 @@ const BlogForm = ({ setBlogs, existingBlogs }) => {
     let message = 'Blog created successfully'
 
     try {
-      const blog = await blogsService.create(newBlog)
+      const blog = await createBlog(newBlog)
 
       const newBlogs = [
         ...existingBlogs,
@@ -59,24 +59,27 @@ const BlogForm = ({ setBlogs, existingBlogs }) => {
 
         <form onSubmit={create}>
           <div>
-            Title:
+            <label htmlFor='title-input'>Title:</label>
             <input
+              id='title-input'
               type='text'
               name='title'
               onChange={handleChange(setTitle)}
               value={title}/>
           </div>
           <div>
-            Author:
+            <label htmlFor='author-input'>Author:</label>
             <input
+              id='author-input'
               type='text'
               name='author'
               onChange={handleChange(setAuthor)}
               value={author}/>
           </div>
           <div>
-            Url:
+            <label htmlFor='url-input'>Url:</label>
             <input
+              id='url-input'
               type='url'
               name='url'
               onChange={handleChange(setUrl)}

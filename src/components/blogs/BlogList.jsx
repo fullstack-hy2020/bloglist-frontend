@@ -35,11 +35,13 @@ const BlogList = () => {
     }
   }
 
-  const likeBlog = async blog  => await blogsService.update(blog.id, { likes: blog.likes })
+  const likeBlog = async blog => await blogsService.update(blog.id, { likes: blog.likes })
+
+  const createBlog = async blog => await blogsService.create(blog)
 
   return (
     <div>
-      <BlogForm setBlogs={setBlogs} existingBlogs={blogs} />
+      <BlogForm setBlogs={setBlogs} existingBlogs={blogs} createBlog={createBlog} />
       <h3>Saved Blogs</h3>
       <div>{notification}</div>
       <div>
