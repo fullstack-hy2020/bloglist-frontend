@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react'
 import helpers from '../../utils/helpers'
-import blogsService from '../../services/blogs'
 import Togglable from '../shared/Togglable'
 import Notification from '../shared/Notification'
 
