@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import loginService from '../services/login'
+import loginService from '../../services/login'
 import Notification from './Notification'
 
 const Login = ({ setLoggedIn }) => {

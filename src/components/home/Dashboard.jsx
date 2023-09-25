@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import Blogs from './Blogs'
+import BlogList from '../blogs/BlogList'
 
 const Dashboard = ({ setLoggedIn }) => {
   const [name, setName] = useState('')
@@ -21,7 +21,7 @@ const Dashboard = ({ setLoggedIn }) => {
       <div>
         {name} logged in <button onClick={logout}>logout</button>
       </div>
-      <Blogs />
+      <BlogList />
     </div>
   )
 }
