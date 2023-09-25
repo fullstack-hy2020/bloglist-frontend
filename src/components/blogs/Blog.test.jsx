@@ -69,7 +69,6 @@ describe('<Blog />', () => {
   })
 
   test('likes are updated in backend from parent component when like button is clicked twice', async () => {
-    const likesBefore = blog.likes
     const user = userEvent.setup()
     const viewButton = screen.getByText('view')
     await user.click(viewButton)
