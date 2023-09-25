@@ -30,7 +30,7 @@ const Blog = ({ blog, deleteBlog }) => {
 
     if(detailedView){
       content =
-        <div style={blogStyle} className={className}>
+        <div style={blogStyle} className={`detailed-${className}`}>
           <div>
             {blog.title} {blog.author} <button onClick={toggleDetails}>hide</button>
           </div>
