@@ -5,7 +5,8 @@ import { render, screen } from '@testing-library/react'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
-  let container
+  let container, mockDelete, mockLike
+
   const blog = {
     title: 'Test Blog',
     author: 'Test Author',
@@ -17,8 +18,9 @@ describe('<Blog />', () => {
   }
 
   beforeEach(() => {
-    const mockHandler = jest.fn()
-    container = render(<Blog blog={blog} deleteBlog={mockHandler} />).container
+    mockDelete = jest.fn()
+    mockLike = jest.fn()
+    container = render(<Blog blog={blog} deleteBlog={mockDelete} likeBlog={mockLike} />).container
   })
 
   test('shows only title and author by default', () => {
@@ -48,7 +50,35 @@ describe('<Blog />', () => {
     expect(url).not.toBeNull()
     expect(likes).not.toBeNull()
 
-    const div = container.querySelector('.detailed-blog')
+    const div = container.querySelector('.blog-detailed')
     expect(div).not.toBeNull()
+  })
+
+  test('likes are incremented when like button is clicked', async () => {
+    const likesBefore = blog.likes
+    const user = userEvent.setup()
+    const viewButton = screen.getByText('view')
+    await user.click(viewButton)
+
+    const likeButton = screen.getByText('like')
+    await user.click(likeButton)
+
+    const expectedLikes = likesBefore + 1
+    const actualLikes = screen.queryByText(`${expectedLikes}`)
+    expect(actualLikes).not.toBeNull()
+  })
+
+  test('likes are updated in backend from parent component when like button is clicked twice', async () => {
+    const likesBefore = blog.likes
+    const user = userEvent.setup()
+    const viewButton = screen.getByText('view')
+    await user.click(viewButton)
+
+    const likeButton = screen.getByText('like')
+    await user.click(likeButton)
+    expect(mockLike.mock.calls).toHaveLength(1)
+
+    await user.click(likeButton)
+    expect(mockLike.mock.calls).toHaveLength(2)
   })
 })

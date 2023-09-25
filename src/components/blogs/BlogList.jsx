@@ -35,13 +35,15 @@ const BlogList = () => {
     }
   }
 
+  const likeBlog = async blog  => await blogsService.update(blog.id, { likes: blog.likes })
+
   return (
     <div>
       <BlogForm setBlogs={setBlogs} existingBlogs={blogs} />
       <h3>Saved Blogs</h3>
       <div>{notification}</div>
       <div>
-        {blogs.map(blog => <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog}/>)}
+        {blogs.map(blog => <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog} likeBlog={likeBlog}/>)}
       </div>
     </div>
   )

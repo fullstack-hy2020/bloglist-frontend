@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import blogsService from '../../services/blogs'
 
-const Blog = ({ blog, deleteBlog }) => {
+const Blog = ({ blog, deleteBlog, likeBlog }) => {
   const [detailedView, setDetailedView] = useState(false)
   const [content, setContent] = useState('')
   const [likes, setLikes] = useState(blog.likes)
@@ -20,8 +19,9 @@ const Blog = ({ blog, deleteBlog }) => {
     setDetailedView(!detailedView)
   }
 
-  const like = blog => async () => {
-    await blogsService.update(blog.id, { likes: ++blog.likes })
+  const like = (blog, likeBlog) => async () => {
+    blog.likes++
+    await likeBlog(blog)
     setLikes(blog.likes)
   }
 
@@ -30,17 +30,18 @@ const Blog = ({ blog, deleteBlog }) => {
 
     if(detailedView){
       content =
-        <div style={blogStyle} className={`detailed-${className}`}>
+        <div style={blogStyle} className={`${className}-detailed`}>
           <div>
             {blog.title} {blog.author} <button onClick={toggleDetails}>hide</button>
           </div>
-          <div>
+          <div className={`${className}-url`}>
             {blog.url}
           </div>
-          <div>
-            {likes} <button onClick={like(blog)}>like</button>
+          <div className={`${className}-likes`}>
+            {likes}
           </div>
-          <div>
+          <button onClick={like(blog, likeBlog)}>like</button>
+          <div className={`${className}-user`}>
             {blog.user.name}
           </div>
           <button onClick={deleteBlog(blog)}>remove</button>
