@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { setStateTimeout } from '../../utils/helpers'
+import helpers from '../../utils/helpers'
 import blogsService from '../../services/blogs'
 import Togglable from '../shared/Togglable'
 import Notification from '../shared/Notification'
@@ -45,7 +45,7 @@ const BlogForm = ({ setBlogs, existingBlogs }) => {
       type = 'error'
       message = 'Failed to create blog'
     } finally {
-      setStateTimeout(<Notification type={type} message={message} />, setNotification, 3000)
+      helpers.setStateTimeout(<Notification type={type} message={message} />, setNotification, 3000)
     }
   }
 

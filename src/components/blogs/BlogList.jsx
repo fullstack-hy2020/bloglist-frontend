@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import _ from 'lodash'
-import { setStateTimeout } from '../../utils/helpers'
+import helpers from '../../utils/helpers'
 import blogsService from '../../services/blogs'
 import Notification from '../shared/Notification'
 import Blog from './Blog'
@@ -30,7 +30,7 @@ const BlogList = () => {
         type = 'error'
         message = 'Failed to delete blog'
       } finally {
-        setStateTimeout(<Notification type={type} message={message} />, setNotification, 3000)
+        helpers.setStateTimeout(<Notification type={type} message={message} />, setNotification, 3000)
       }
     }
   }

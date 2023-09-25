@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import helpers from '../../utils/helpers'
 import loginService from '../../services/login'
-import Notification from './Notification'
+import Notification from '../shared/Notification'
 
 const Login = ({ setLoggedIn }) => {
   const [username, setUsername] = useState('')
@@ -17,11 +18,7 @@ const Login = ({ setLoggedIn }) => {
       window.localStorage.setItem('user', JSON.stringify(user))
       setLoggedIn(true)
     } catch (error) {
-      setError(<Notification type={'error'} message={'Invalid username or password. Try again.'} />)
-
-      setTimeout(() => {
-        setError('')
-      }, 3000)
+      helpers.setStateTimeout(<Notification type={'error'} message={'Invalid username or password. Try again.'} />, setError, 3000)
     }
   }
 

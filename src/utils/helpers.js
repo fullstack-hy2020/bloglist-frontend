@@ -1,4 +1,4 @@
-const setStateTimeout = (setState, component, timeout) => {
+const setStateTimeout = (component, setState, timeout) => {
   setState(component)
 
   setTimeout(() => {
@@ -6,4 +6,6 @@ const setStateTimeout = (setState, component, timeout) => {
   }, timeout)
 }
 
-export default { setStateTimeout }
+export default {
+  setStateTimeout
+}
