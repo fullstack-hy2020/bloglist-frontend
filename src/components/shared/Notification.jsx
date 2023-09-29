@@ -19,7 +19,7 @@ const Notification = ({ type, message }) => {
     }
   }
 
-  return <div style={styles[type]}>{message}</div>
+  return <div id='notification' style={styles[type]}>{message}</div>
 }
 
 export default Notification

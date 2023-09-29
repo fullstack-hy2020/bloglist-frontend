@@ -30,22 +30,24 @@ const Login = ({ setLoggedIn }) => {
       <div>{error}</div>
       <form onSubmit={login}>
         <div>
-          Username:
+          <label htmlFor='username'>Username:</label>
           <input
+            id='username'
             type='text'
             name='Username'
             onChange={handleChange(setUsername)}
             value={username}/>
         </div>
         <div>
-          Password:
+          <label htmlFor='password'>Password:</label>
           <input
+            id='password'
             type='password'
             name='Password'
             onChange={handleChange(setPassword)}
             value={password}/>
         </div>
-        <button type='submit'>login</button>
+        <button id='login' type='submit'>login</button>
       </form>
     </div>
   )
