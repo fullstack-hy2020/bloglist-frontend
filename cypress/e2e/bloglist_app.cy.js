@@ -64,7 +64,7 @@ describe('BlogList app', function() {
       cy.get('#login-button').click()
     })
   
-    it('A blog can be created', function() {
+    it('allows user to create blog', function() {
       cy.get('#new-blog-toggle').click()
       cy.get('#title-input').type(blog.title)
       cy.get('#author-input').type(blog.author)
@@ -73,6 +73,19 @@ describe('BlogList app', function() {
 
       cy.contains('Blog created successfully')
       cy.contains(`${blog.title} ${blog.author}`)
+    })
+
+    it('allows user to like a blog', function() {
+      cy.get('#new-blog-toggle').click()
+      cy.get('#title-input').type(blog.title)
+      cy.get('#author-input').type(blog.author)
+      cy.get('#url-input').type(blog.url)
+      cy.get('#create-button').click()
+      cy.get('#view-button').click()
+
+      cy.get('#blog-likes').contains('0')
+      cy.get('#like-button').click()
+      cy.get('#blog-likes').contains('1')
     })
   })
 })

@@ -37,10 +37,10 @@ const Blog = ({ blog, deleteBlog, likeBlog }) => {
           <div className={`${className}-url`}>
             {blog.url}
           </div>
-          <div className={`${className}-likes`}>
+          <div id={`${className}-likes`} className={`${className}-likes`}>
             {likes}
           </div>
-          <button onClick={like(blog)}>like</button>
+          <button id='like-button' onClick={like(blog)}>like</button>
           <div className={`${className}-user`}>
             {blog.user.name}
           </div>
@@ -49,7 +49,7 @@ const Blog = ({ blog, deleteBlog, likeBlog }) => {
     }else{
       content =
         <div style={blogStyle} className={className}>
-          {blog.title} {blog.author} <button onClick={toggleDetails}>view</button>
+          {blog.title} {blog.author} <button id='view-button' onClick={toggleDetails}>view</button>
         </div>
     }
 
