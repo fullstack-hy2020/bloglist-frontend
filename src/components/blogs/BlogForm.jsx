@@ -53,7 +53,7 @@ const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
   return (
     <div>
       {notification}
-      <Togglable buttonLabel={'New Blog'} ref={newBlogRef}>
+      <Togglable buttonId='new-blog-toggle' buttonLabel={'New Blog'} ref={newBlogRef}>
         <h3>New Blog</h3>
 
         <form onSubmit={create}>
@@ -84,7 +84,7 @@ const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
               onChange={handleChange(setUrl)}
               value={url}/>
           </div>
-          <button type='submit'>create</button>
+          <button id='create-button' type='submit'>create</button>
         </form>
       </Togglable>
     </div>
