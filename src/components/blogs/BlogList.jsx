@@ -11,6 +11,7 @@ const BlogList = () => {
   const [blogs, setBlogs]  = useState([])
   const [notification, setNotification] = useState('')
   const [username, setUsername] = useState('')
+  const [render, setRender]  = useState(true)
 
   useEffect(() => {
     const { username } = JSON.parse(window.localStorage.getItem('user'))
@@ -18,7 +19,7 @@ const BlogList = () => {
 
     blogsService.getAll()
       .then(blogs => setBlogs(_.orderBy(blogs, 'likes', 'desc')))
-  }, [])
+  }, [render])
 
   const deleteBlog = blog => async () => {
     if(window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)){
@@ -39,7 +40,10 @@ const BlogList = () => {
     }
   }
 
-  const likeBlog = async blog => await blogsService.update(blog.id, { likes: blog.likes })
+  const likeBlog = async blog => {
+    await blogsService.update(blog.id, { likes: blog.likes })
+    setRender(!render)
+  }
 
   const createBlog = async blog => await blogsService.create(blog)
 

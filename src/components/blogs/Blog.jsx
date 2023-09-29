@@ -32,7 +32,7 @@ const Blog = ({ username, blog, deleteBlog, likeBlog }) => {
       content =
         <div style={blogStyle} className={`${className}-detailed`}>
           <div>
-            {blog.title} {blog.author} <button onClick={toggleDetails}>hide</button>
+            {blog.title} {blog.author} <button id={'hide-blog-button'} onClick={toggleDetails}>hide</button>
           </div>
           <div className={`${className}-url`}>
             {blog.url}

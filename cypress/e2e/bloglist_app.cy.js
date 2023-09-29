@@ -50,11 +50,13 @@ describe('BlogList app', function() {
     const blog = {
       title: 'Test Blog',
       author: 'Test Author',
-      url: 'http://some.url',
-      likes: 1,
-      user: {
-        name: 'Test User'
-      }
+      url: 'http://some.url'
+    }
+
+    const blog2 = {
+      title: 'Test Blog2',
+      author: 'Test Author2',
+      url: 'http://some.url2'
     }
 
     beforeEach(function() {
@@ -93,6 +95,34 @@ describe('BlogList app', function() {
       cy.get('#blog-likes').contains('0')
       cy.get('#like-button').click()
       cy.get('#blog-likes').contains('1')
+    })
+
+    it('sorts blogs by most likes first', function() {
+      cy.get('#new-blog-toggle').click()
+      cy.get('#title-input').type(blog.title)
+      cy.get('#author-input').type(blog.author)
+      cy.get('#url-input').type(blog.url)
+      cy.get('#create-button').click()
+
+      cy.get('#new-blog-toggle').click()
+      cy.get('#title-input').type(blog2.title)
+      cy.get('#author-input').type(blog2.author)
+      cy.get('#url-input').type(blog2.url)
+      cy.get('#create-button').click()
+      cy.wait(1000)
+
+      cy.get('.blog').contains(`${blog2.title} ${blog2.author}`).within(()=>{
+        cy.get('#view-button').click()
+      })
+
+      cy.get('#blog-likes').contains('0')
+      cy.get('#like-button').click()
+      cy.get('#blog-likes').contains('1')
+      cy.get('#hide-blog-button').click()
+      cy.wait(1000)
+
+      cy.get('.blog').eq(0).should('contain', `${blog2.title} ${blog2.author}`)
+      cy.get('.blog').eq(1).should('contain', `${blog.title} ${blog.author}`)
     })
 
     it('allows user to delete a blog', function() {
