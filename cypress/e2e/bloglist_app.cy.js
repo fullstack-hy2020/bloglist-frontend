@@ -87,5 +87,23 @@ describe('BlogList app', function() {
       cy.get('#like-button').click()
       cy.get('#blog-likes').contains('1')
     })
+
+    it('allows user to delete a blog', function() {
+      cy.on('window:confirm', () => true)
+      cy.get('#new-blog-toggle').click()
+      cy.get('#title-input').type(blog.title)
+      cy.get('#author-input').type(blog.author)
+      cy.get('#url-input').type(blog.url)
+      cy.get('#create-button').click()
+      cy.contains('Blog created successfully')
+      cy.contains(`${blog.title} ${blog.author}`)
+
+      cy.get('#view-button').click()
+      cy.get('.blog-detailed')
+      cy.get('#remove-button').click()
+
+      cy.wait(1000)
+      cy.get('.blog-detailed').should('not.exist')
+    })
   })
 })

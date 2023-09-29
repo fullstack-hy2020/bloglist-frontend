@@ -44,7 +44,7 @@ const Blog = ({ blog, deleteBlog, likeBlog }) => {
           <div className={`${className}-user`}>
             {blog.user.name}
           </div>
-          <button onClick={deleteBlog(blog)}>remove</button>
+          <button id='remove-button' onClick={deleteBlog(blog)}>remove</button>
         </div>
     }else{
       content =
