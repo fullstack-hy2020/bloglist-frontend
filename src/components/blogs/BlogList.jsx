@@ -10,8 +10,12 @@ import BlogForm from './BlogForm'
 const BlogList = () => {
   const [blogs, setBlogs]  = useState([])
   const [notification, setNotification] = useState('')
+  const [username, setUsername] = useState('')
 
   useEffect(() => {
+    const { username } = JSON.parse(window.localStorage.getItem('user'))
+    setUsername(username)
+
     blogsService.getAll()
       .then(blogs => setBlogs(_.orderBy(blogs, 'likes', 'desc')))
   }, [])
@@ -45,7 +49,7 @@ const BlogList = () => {
       <h3>Saved Blogs</h3>
       <div>{notification}</div>
       <div>
-        {blogs.map(blog => <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog} likeBlog={likeBlog}/>)}
+        {blogs.map(blog => <Blog username={username} key={blog.id} blog={blog} deleteBlog={deleteBlog} likeBlog={likeBlog}/>)}
       </div>
     </div>
   )

@@ -5,6 +5,12 @@ describe('BlogList app', function() {
     password: 'securePwd'
   }
 
+  const user2 = {
+    username: 'testUser2',
+    name: 'Test User2',
+    password: 'securePwd'
+  }
+
   describe('When logging in', function() {
     beforeEach(function() {
       const resetUrl = 'http://localhost:3003/api/testing/reset'
@@ -57,6 +63,7 @@ describe('BlogList app', function() {
   
       const newUserUrl = 'http://localhost:3003/api/users'
       cy.request('POST', newUserUrl, user)
+      cy.request('POST', newUserUrl, user2)
   
       cy.visit('http://localhost:3003')
       cy.get('#username').type(user.username)
@@ -101,9 +108,23 @@ describe('BlogList app', function() {
       cy.get('#view-button').click()
       cy.get('.blog-detailed')
       cy.get('#remove-button').click()
-
-      cy.wait(1000)
       cy.get('.blog-detailed').should('not.exist')
+    })
+
+    it('does not show user delete button for blogs they do not own', function() {
+      cy.on('window:confirm', () => true)
+      cy.get('#new-blog-toggle').click()
+      cy.get('#title-input').type(blog.title)
+      cy.get('#author-input').type(blog.author)
+      cy.get('#url-input').type(blog.url)
+      cy.get('#create-button').click()
+      cy.visit('http://localhost:3003')
+      cy.get('#username').type(user2.username)
+      cy.get('#password').type(user2.password)
+      cy.get('#login-button').click()
+
+      cy.get('#view-button').click()
+      cy.get('#remove-button').should('not.exist')
     })
   })
 })

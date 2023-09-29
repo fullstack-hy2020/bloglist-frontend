@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const Blog = ({ blog, deleteBlog, likeBlog }) => {
+const Blog = ({ username, blog, deleteBlog, likeBlog }) => {
   const [detailedView, setDetailedView] = useState(false)
   const [content, setContent] = useState('')
   const [likes, setLikes] = useState(blog.likes)
@@ -44,7 +44,9 @@ const Blog = ({ blog, deleteBlog, likeBlog }) => {
           <div className={`${className}-user`}>
             {blog.user.name}
           </div>
-          <button id='remove-button' onClick={deleteBlog(blog)}>remove</button>
+          { blog.user.username === username &&
+            <button id='remove-button' onClick={deleteBlog(blog)}>remove</button>
+          }
         </div>
     }else{
       content =
