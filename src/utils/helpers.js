@@ -1,11 +1,11 @@
 const setStateTimeout = (component, setState, timeout) => {
-  setState(component)
+  setState(component);
 
   setTimeout(() => {
-    setState('')
-  }, timeout)
-}
+    setState("");
+  }, timeout);
+};
 
 export default {
-  setStateTimeout
-}
+  setStateTimeout,
+};

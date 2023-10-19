@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import BlogList from '../blogs/BlogList'
+import { useEffect, useState } from "react";
+import BlogList from "../blogs/BlogList";
 
 const Dashboard = ({ setLoggedIn }) => {
-  const [name, setName] = useState('')
+  const [name, setName] = useState("");
 
   useEffect(() => {
-    const { name } = JSON.parse(window.localStorage.getItem('user'))
-    setName(name)
-  }, [])
+    const { name } = JSON.parse(window.localStorage.getItem("user"));
+    setName(name);
+  }, []);
 
-  const logout = event => {
-    event.preventDefault()
-    window.localStorage.clear()
-    setLoggedIn(false)
-  }
+  const logout = (event) => {
+    event.preventDefault();
+    window.localStorage.clear();
+    setLoggedIn(false);
+  };
 
   return (
     <div>
@@ -23,7 +23,7 @@ const Dashboard = ({ setLoggedIn }) => {
       </div>
       <BlogList />
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

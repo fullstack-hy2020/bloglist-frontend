@@ -1,25 +1,29 @@
 const Notification = ({ type, message }) => {
   const style = {
-    background: 'lightgrey',
+    background: "lightgrey",
     fontSize: 20,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderRadius: 5,
     padding: 10,
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  };
 
   const styles = {
     error: {
       ...style,
-      color: 'red'
+      color: "red",
     },
     success: {
       ...style,
-      color: 'green'
-    }
-  }
+      color: "green",
+    },
+  };
 
-  return <div id='notification' style={styles[type]}>{message}</div>
-}
+  return (
+    <div id="notification" style={styles[type]}>
+      {message}
+    </div>
+  );
+};
 
-export default Notification
+export default Notification;
