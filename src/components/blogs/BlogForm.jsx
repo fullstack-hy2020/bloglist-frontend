@@ -1,13 +1,14 @@
 import { useState, useRef } from "react";
-import helpers from "../../utils/helpers";
 import Togglable from "../shared/Togglable";
-import Notification from "../shared/Notification";
+import { setNotification } from "../shared/reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
-  const [notification, setNotification] = useState("");
+
+  const dispatch = useDispatch();
 
   const newBlogRef = useRef();
 
@@ -41,10 +42,11 @@ const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
       type = "error";
       message = "Failed to create blog";
     } finally {
-      helpers.setStateTimeout(
-        <Notification type={type} message={message} />,
-        setNotification,
-        3000,
+      dispatch(
+        setNotification({
+          message,
+          type,
+        })
       );
     }
   };
@@ -53,7 +55,6 @@ const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
 
   return (
     <div>
-      {notification}
       <Togglable buttonId="new-blog" buttonLabel={"New Blog"} ref={newBlogRef}>
         <h3>New Blog</h3>
 

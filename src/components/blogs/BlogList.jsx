@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import _ from "lodash";
-import helpers from "../../utils/helpers";
 import blogsService from "./services/blogsService";
-import Notification from "../shared/Notification";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
+import { setNotification } from "../shared/reducers/notificationReducer";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
-  const [notification, setNotification] = useState("");
   const [username, setUsername] = useState("");
   const [render, setRender] = useState(true);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const { username } = JSON.parse(window.localStorage.getItem("user"));
@@ -35,10 +36,11 @@ const BlogList = () => {
         type = "error";
         message = "Failed to delete blog";
       } finally {
-        helpers.setStateTimeout(
-          <Notification type={type} message={message} />,
-          setNotification,
-          3000
+        dispatch(
+          setNotification({
+            message,
+            type,
+          })
         );
       }
     }
@@ -59,7 +61,6 @@ const BlogList = () => {
         createBlog={createBlog}
       />
       <h3>Saved Blogs</h3>
-      <div>{notification}</div>
       <div>
         {blogs.map((blog) => (
           <Blog
