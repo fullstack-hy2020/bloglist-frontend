@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import helpers from "../../utils/helpers";
-import blogsService from "./services/blogs";
+import blogsService from "./services/blogsService";
 import Notification from "../shared/Notification";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
