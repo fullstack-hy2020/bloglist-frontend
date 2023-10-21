@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Dashboard from "./components/home/Dashboard";
+import Notification from "./components/shared/Notification";
 import Login from "./components/auth/Login";
 
 const App = () => {
@@ -14,7 +15,12 @@ const App = () => {
     }
   }, [loggedIn]);
 
-  return entrypoint;
+  return (
+    <div>
+      <Notification />
+      {entrypoint}
+    </div>
+  );
 };
 
 export default App;

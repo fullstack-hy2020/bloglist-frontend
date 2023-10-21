@@ -1,12 +1,12 @@
 import { useState } from "react";
 import loginService from "./services/login";
-import Notification from "../shared/Notification";
 import { setNotification } from "../shared/reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 const Login = ({ setLoggedIn }) => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
   const login = async (event) => {
     event.preventDefault();
@@ -17,7 +17,12 @@ const Login = ({ setLoggedIn }) => {
       window.localStorage.setItem("user", JSON.stringify(user));
       setLoggedIn(true);
     } catch (error) {
-      setNotification("Invalid username or password. Try again.", 5);
+      dispatch(
+        setNotification({
+          message: "Invalid username or password. Try again.",
+          type: "error",
+        })
+      );
     }
   };
 
@@ -26,7 +31,6 @@ const Login = ({ setLoggedIn }) => {
   return (
     <div>
       <h2>Log in</h2>
-      <Notification />
       <form onSubmit={login}>
         <div>
           <label htmlFor="username">Username:</label>
