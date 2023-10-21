@@ -1,6 +1,6 @@
 import { useState } from "react";
 import helpers from "../../utils/helpers";
-import loginService from "../../services/login";
+import loginService from "./services/login";
 import Notification from "../shared/Notification";
 
 const Login = ({ setLoggedIn }) => {
@@ -23,7 +23,7 @@ const Login = ({ setLoggedIn }) => {
           message={"Invalid username or password. Try again."}
         />,
         setError,
-        3000,
+        3000
       );
     }
   };

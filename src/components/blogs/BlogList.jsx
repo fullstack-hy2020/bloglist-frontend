@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import helpers from "../../utils/helpers";
-import blogsService from "../../services/blogs";
+import blogsService from "./services/blogs";
 import Notification from "../shared/Notification";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
@@ -38,7 +38,7 @@ const BlogList = () => {
         helpers.setStateTimeout(
           <Notification type={type} message={message} />,
           setNotification,
-          3000,
+          3000
         );
       }
     }
