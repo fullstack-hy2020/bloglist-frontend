@@ -1,27 +1,20 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import Togglable from "../shared/Togglable";
 import { setNotification } from "../shared/reducers/notificationReducer";
 import { create } from "./reducers/blogsReducer";
 
 const BlogForm = () => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
-
   const dispatch = useDispatch();
 
   const newBlogRef = useRef();
 
-  const clearInputs = () => {
-    setTitle("");
-    setAuthor("");
-    setUrl("");
-    newBlogRef.current.toggleVisibility();
-  };
-
   const createBlog = (event) => {
     event.preventDefault();
+
+    const title = event.target.title.value;
+    const author = event.target.author.value;
+    const url = event.target.url.value;
 
     const newBlog = {
       title,
@@ -29,62 +22,42 @@ const BlogForm = () => {
       url,
     };
 
-    let type = "success";
-    let message = "Blog created successfully";
-
-    try {
-      dispatch(create(newBlog));
-      clearInputs();
-    } catch {
-      type = "error";
-      message = "Failed to create blog";
-    } finally {
-      dispatch(
-        setNotification({
-          message,
-          type,
-        })
+    dispatch(create(newBlog))
+      .then(() => {
+        dispatch(
+          setNotification({
+            message: "Blog created successfully",
+            type: "success",
+          })
+        );
+        newBlogRef.current.toggleVisibility();
+      })
+      .catch((error) =>
+        dispatch(
+          setNotification({
+            message: error,
+            type: "error",
+          })
+        )
       );
-    }
   };
-
-  const handleChange = (callback) => (event) => callback(event.target.value);
 
   return (
     <div>
       <Togglable buttonId="new-blog" buttonLabel={"New Blog"} ref={newBlogRef}>
         <h3>New Blog</h3>
-
         <form onSubmit={createBlog}>
           <div>
             <label htmlFor="title-input">Title:</label>
-            <input
-              id="title-input"
-              type="text"
-              name="title"
-              onChange={handleChange(setTitle)}
-              value={title}
-            />
+            <input id="title-input" type="text" name="title" />
           </div>
           <div>
             <label htmlFor="author-input">Author:</label>
-            <input
-              id="author-input"
-              type="text"
-              name="author"
-              onChange={handleChange(setAuthor)}
-              value={author}
-            />
+            <input id="author-input" type="text" name="author" />
           </div>
           <div>
             <label htmlFor="url-input">Url:</label>
-            <input
-              id="url-input"
-              type="url"
-              name="url"
-              onChange={handleChange(setUrl)}
-              value={url}
-            />
+            <input id="url-input" type="url" name="url" />
           </div>
           <button id="create-button" type="submit">
             create

@@ -22,8 +22,12 @@ const blogsSlice = createSlice({
 const { set, append, removeById, incrementLikesById } = blogsSlice.actions;
 
 export const create = (blog) => async (dispatch) => {
-  const newBlog = await blogsService.create(blog);
-  dispatch(append(newBlog));
+  try {
+    const newBlog = await blogsService.create(blog);
+    dispatch(append(newBlog));
+  } catch {
+    throw "Failed to create blog";
+  }
 };
 
 export const getAll = () => async (dispatch) => {
