@@ -1,25 +1,19 @@
-import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import BlogList from "../blogs/BlogList";
+import { logout } from "../auth/reducers/authReducer";
 
-const Dashboard = ({ setLoggedIn }) => {
-  const [name, setName] = useState("");
+const Dashboard = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    const { name } = JSON.parse(window.localStorage.getItem("user"));
-    setName(name);
-  }, []);
-
-  const logout = (event) => {
-    event.preventDefault();
-    window.localStorage.clear();
-    setLoggedIn(false);
-  };
+  if (auth === null) return;
 
   return (
     <div>
       <h2>Blogs Dashboard</h2>
       <div>
-        {name} logged in <button onClick={logout}>logout</button>
+        {auth.user.name} logged in
+        <button onClick={() => dispatch(logout())}>logout</button>
       </div>
       <BlogList />
     </div>

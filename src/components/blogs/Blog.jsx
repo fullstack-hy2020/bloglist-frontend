@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-const Blog = ({ username, blog, deleteBlog, likeBlog }) => {
+const Blog = ({ blog, deleteBlog, likeBlog }) => {
+  const auth = useSelector((state) => state.auth);
   const [detailedView, setDetailedView] = useState(false);
   const [content, setContent] = useState("");
-  const [likes, setLikes] = useState(blog.likes);
 
   const className = "blog";
 
@@ -17,12 +18,6 @@ const Blog = ({ username, blog, deleteBlog, likeBlog }) => {
 
   const toggleDetails = () => {
     setDetailedView(!detailedView);
-  };
-
-  const like = (blog) => async () => {
-    blog.likes++;
-    await likeBlog(blog);
-    setLikes(blog.likes);
   };
 
   useEffect(() => {
@@ -39,13 +34,13 @@ const Blog = ({ username, blog, deleteBlog, likeBlog }) => {
           </div>
           <div className={`${className}-url`}>{blog.url}</div>
           <div id={`${className}-likes`} className={`${className}-likes`}>
-            {likes}
+            {blog.likes}
           </div>
-          <button id="like-button" onClick={like(blog)}>
+          <button id="like-button" onClick={likeBlog(blog)}>
             like
           </button>
           <div className={`${className}-user`}>{blog.user.name}</div>
-          {blog.user.username === username && (
+          {blog.user.username === auth.user.username && (
             <button id="remove-button" onClick={deleteBlog(blog)}>
               remove
             </button>
@@ -64,7 +59,7 @@ const Blog = ({ username, blog, deleteBlog, likeBlog }) => {
     }
 
     setContent(content);
-  }, [detailedView, likes]);
+  }, [blog, detailedView]);
 
   return content;
 };

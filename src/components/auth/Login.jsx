@@ -1,59 +1,36 @@
-import { useState } from "react";
-import helpers from "../../utils/helpers";
-import loginService from "./services/login";
-import Notification from "../shared/Notification";
+import { setNotification } from "../shared/reducers/notificationReducer";
+import { login } from "./reducers/authReducer";
+import { useDispatch } from "react-redux";
 
-const Login = ({ setLoggedIn }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const Login = () => {
+  const dispatch = useDispatch();
 
-  const login = async (event) => {
+  const loginUser = (event) => {
     event.preventDefault();
+    const username = event.target.username.value;
+    const password = event.target.password.value;
 
-    try {
-      const user = await loginService.login(username, password);
-
-      window.localStorage.setItem("user", JSON.stringify(user));
-      setLoggedIn(true);
-    } catch (error) {
-      helpers.setStateTimeout(
-        <Notification
-          type={"error"}
-          message={"Invalid username or password. Try again."}
-        />,
-        setError,
-        3000
-      );
-    }
+    dispatch(login(username, password)).catch((error) =>
+      dispatch(
+        setNotification({
+          message: error,
+          type: "error",
+        })
+      )
+    );
   };
-
-  const handleChange = (callback) => (event) => callback(event.target.value);
 
   return (
     <div>
       <h2>Log in</h2>
-      <div>{error}</div>
-      <form onSubmit={login}>
+      <form onSubmit={loginUser}>
         <div>
           <label htmlFor="username">Username:</label>
-          <input
-            id="username"
-            type="text"
-            name="Username"
-            onChange={handleChange(setUsername)}
-            value={username}
-          />
+          <input id="username" type="text" name="username" />
         </div>
         <div>
           <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            name="Password"
-            onChange={handleChange(setPassword)}
-            value={password}
-          />
+          <input id="password" type="password" name="password" />
         </div>
         <button id="login-button" type="submit">
           login

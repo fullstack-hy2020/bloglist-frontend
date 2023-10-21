@@ -11,13 +11,14 @@ const create = async (blog) => {
   return response.data;
 };
 
-const update = async (id, data) => {
+const updateById = async (id, data) => {
   const url = `${baseUrl}/${id}`;
   const response = await axios.put(url, data, headers());
   return response.data;
 };
 
-const del = async (id) => {
+const del = async (blog) => {
+  const id = blog.id;
   const url = `${baseUrl}/${id}`;
   const response = await axios.delete(url, headers());
   return response.data;
@@ -35,6 +36,6 @@ const headers = () => {
 export default {
   getAll,
   create,
-  update,
+  updateById,
   del,
 };

@@ -1,69 +1,49 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import helpers from "../../utils/helpers";
-import blogsService from "./services/blogs";
-import Notification from "../shared/Notification";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
+import { setNotification } from "../shared/reducers/notificationReducer";
+import { remove, like, getAll } from "./reducers/blogsReducer";
 
 const BlogList = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [notification, setNotification] = useState("");
-  const [username, setUsername] = useState("");
-  const [render, setRender] = useState(true);
+  const blogs = useSelector((state) => _.orderBy(state.blogs, "likes", "desc"));
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const { username } = JSON.parse(window.localStorage.getItem("user"));
-    setUsername(username);
+    dispatch(getAll());
+  }, []);
 
-    blogsService
-      .getAll()
-      .then((blogs) => setBlogs(_.orderBy(blogs, "likes", "desc")));
-  }, [render]);
-
-  const deleteBlog = (blog) => async () => {
+  const deleteBlog = (blog) => () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      const id = blog.id;
       let type = "success";
       let message = "Blog deleted successfully";
 
       try {
-        await blogsService.del(id);
-        const newBlogs = blogs.filter((blog) => blog.id !== id);
-        setBlogs(newBlogs);
+        dispatch(remove(blog));
       } catch {
         type = "error";
         message = "Failed to delete blog";
       } finally {
-        helpers.setStateTimeout(
-          <Notification type={type} message={message} />,
-          setNotification,
-          3000
+        dispatch(
+          setNotification({
+            message,
+            type,
+          })
         );
       }
     }
   };
 
-  const likeBlog = async (blog) => {
-    await blogsService.update(blog.id, { likes: blog.likes });
-    setRender(!render);
-  };
-
-  const createBlog = async (blog) => await blogsService.create(blog);
+  const likeBlog = (blog) => () => dispatch(like(blog));
 
   return (
     <div>
-      <BlogForm
-        setBlogs={setBlogs}
-        existingBlogs={blogs}
-        createBlog={createBlog}
-      />
+      <BlogForm />
       <h3>Saved Blogs</h3>
-      <div>{notification}</div>
       <div>
         {blogs.map((blog) => (
           <Blog
-            username={username}
             key={blog.id}
             blog={blog}
             deleteBlog={deleteBlog}
