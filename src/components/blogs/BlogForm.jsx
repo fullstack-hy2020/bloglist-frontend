@@ -20,7 +20,7 @@ const BlogForm = () => {
     newBlogRef.current.toggleVisibility();
   };
 
-  const createBlog = async (event) => {
+  const createBlog = (event) => {
     event.preventDefault();
 
     const newBlog = {
@@ -33,8 +33,7 @@ const BlogForm = () => {
     let message = "Blog created successfully";
 
     try {
-      console.log(newBlog);
-      await dispatch(create(newBlog));
+      dispatch(create(newBlog));
       clearInputs();
     } catch {
       type = "error";

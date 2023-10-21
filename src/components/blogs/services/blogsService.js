@@ -17,7 +17,8 @@ const update = async (id, data) => {
   return response.data;
 };
 
-const del = async (id) => {
+const del = async (blog) => {
+  const id = blog.id;
   const url = `${baseUrl}/${id}`;
   const response = await axios.delete(url, headers());
   return response.data;

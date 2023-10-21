@@ -5,6 +5,7 @@ import blogsService from "./services/blogsService";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 import { setNotification } from "../shared/reducers/notificationReducer";
+import { remove } from "./reducers/blogsReducer";
 
 const BlogList = () => {
   const [username, setUsername] = useState("");
@@ -18,15 +19,13 @@ const BlogList = () => {
     setUsername(username);
   }, [render]);
 
-  const deleteBlog = (blog) => async () => {
+  const deleteBlog = (blog) => () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      const id = blog.id;
       let type = "success";
       let message = "Blog deleted successfully";
 
       try {
-        await blogsService.del(id);
-        const newBlogs = blogs.filter((blog) => blog.id !== id);
+        dispatch(remove(blog));
       } catch {
         type = "error";
         message = "Failed to delete blog";
