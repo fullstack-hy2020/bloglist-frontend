@@ -2,6 +2,7 @@ import { useState } from "react";
 import helpers from "../../utils/helpers";
 import loginService from "./services/login";
 import Notification from "../shared/Notification";
+import { setNotification } from "../shared/reducers/notificationReducer";
 
 const Login = ({ setLoggedIn }) => {
   const [username, setUsername] = useState("");
@@ -17,14 +18,7 @@ const Login = ({ setLoggedIn }) => {
       window.localStorage.setItem("user", JSON.stringify(user));
       setLoggedIn(true);
     } catch (error) {
-      helpers.setStateTimeout(
-        <Notification
-          type={"error"}
-          message={"Invalid username or password. Try again."}
-        />,
-        setError,
-        3000
-      );
+      setNotification("Invalid username or password. Try again.", 5);
     }
   };
 
@@ -33,7 +27,7 @@ const Login = ({ setLoggedIn }) => {
   return (
     <div>
       <h2>Log in</h2>
-      <div>{error}</div>
+      <Notification />
       <form onSubmit={login}>
         <div>
           <label htmlFor="username">Username:</label>
