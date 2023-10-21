@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import Blog from "./Blog";
@@ -7,15 +7,10 @@ import { setNotification } from "../shared/reducers/notificationReducer";
 import { remove, like, getAll } from "./reducers/blogsReducer";
 
 const BlogList = () => {
-  const [username, setUsername] = useState("");
-
   const blogs = useSelector((state) => _.orderBy(state.blogs, "likes", "desc"));
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const { username } = JSON.parse(window.localStorage.getItem("user"));
-    setUsername(username);
-
     dispatch(getAll());
   }, []);
 
@@ -49,7 +44,6 @@ const BlogList = () => {
       <div>
         {blogs.map((blog) => (
           <Blog
-            username={username}
             key={blog.id}
             blog={blog}
             deleteBlog={deleteBlog}

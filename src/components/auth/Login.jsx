@@ -10,16 +10,14 @@ const Login = () => {
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    try {
-      dispatch(login(username, password));
-    } catch (error) {
+    dispatch(login(username, password)).catch((error) =>
       dispatch(
         setNotification({
-          message: "Invalid username or password. Try again.",
+          message: error,
           type: "error",
         })
-      );
-    }
+      )
+    );
   };
 
   return (

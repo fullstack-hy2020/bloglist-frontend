@@ -5,18 +5,16 @@ import Login from "./components/auth/Login";
 import { useSelector } from "react-redux";
 
 const App = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
   const [entrypoint, setEntrypoint] = useState("");
-  const { user } = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (user !== null) {
-      window.localStorage.setItem("user", JSON.stringify(user));
-      setEntrypoint(<Dashboard setLoggedIn={setLoggedIn} />);
+    if (auth.success === true) {
+      setEntrypoint(<Dashboard />);
     } else {
       setEntrypoint(<Login />);
     }
-  }, [loggedIn]);
+  }, [auth]);
 
   return (
     <div>
