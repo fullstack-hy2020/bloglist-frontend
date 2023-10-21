@@ -1,21 +1,17 @@
-import { useState } from "react";
-import loginService from "./services/login";
 import { setNotification } from "../shared/reducers/notificationReducer";
+import { login } from "./reducers/authReducer";
 import { useDispatch } from "react-redux";
 
-const Login = ({ setLoggedIn }) => {
+const Login = () => {
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
-  const login = async (event) => {
+  const loginUser = (event) => {
     event.preventDefault();
+    const username = event.target.username.value;
+    const password = event.target.password.value;
 
     try {
-      const user = await loginService.login(username, password);
-
-      window.localStorage.setItem("user", JSON.stringify(user));
-      setLoggedIn(true);
+      dispatch(login(username, password));
     } catch (error) {
       dispatch(
         setNotification({
@@ -26,31 +22,17 @@ const Login = ({ setLoggedIn }) => {
     }
   };
 
-  const handleChange = (callback) => (event) => callback(event.target.value);
-
   return (
     <div>
       <h2>Log in</h2>
-      <form onSubmit={login}>
+      <form onSubmit={loginUser}>
         <div>
           <label htmlFor="username">Username:</label>
-          <input
-            id="username"
-            type="text"
-            name="Username"
-            onChange={handleChange(setUsername)}
-            value={username}
-          />
+          <input id="username" type="text" name="username" />
         </div>
         <div>
           <label htmlFor="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            name="Password"
-            onChange={handleChange(setPassword)}
-            value={password}
-          />
+          <input id="password" type="password" name="password" />
         </div>
         <button id="login-button" type="submit">
           login
