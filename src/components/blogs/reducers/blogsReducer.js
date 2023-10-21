@@ -2,11 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 import blogsService from "../services/blogsService";
 
-const initialState = [];
-
 const blogsSlice = createSlice({
   name: "blogs",
-  initialState,
+  initialState: [],
   reducers: {
     set: (state, action) => action.payload,
     append: (state, action) => (state = [...state, action.payload]),
