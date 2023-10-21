@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import blogsService from "./services/blogsService";
 import Blog from "./Blog";
@@ -7,19 +7,15 @@ import BlogForm from "./BlogForm";
 import { setNotification } from "../shared/reducers/notificationReducer";
 
 const BlogList = () => {
-  const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState("");
   const [render, setRender] = useState(true);
 
+  const blogs = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const { username } = JSON.parse(window.localStorage.getItem("user"));
     setUsername(username);
-
-    blogsService
-      .getAll()
-      .then((blogs) => setBlogs(_.orderBy(blogs, "likes", "desc")));
   }, [render]);
 
   const deleteBlog = (blog) => async () => {
@@ -31,7 +27,6 @@ const BlogList = () => {
       try {
         await blogsService.del(id);
         const newBlogs = blogs.filter((blog) => blog.id !== id);
-        setBlogs(newBlogs);
       } catch {
         type = "error";
         message = "Failed to delete blog";
@@ -51,15 +46,9 @@ const BlogList = () => {
     setRender(!render);
   };
 
-  const createBlog = async (blog) => await blogsService.create(blog);
-
   return (
     <div>
-      <BlogForm
-        setBlogs={setBlogs}
-        existingBlogs={blogs}
-        createBlog={createBlog}
-      />
+      <BlogForm />
       <h3>Saved Blogs</h3>
       <div>
         {blogs.map((blog) => (

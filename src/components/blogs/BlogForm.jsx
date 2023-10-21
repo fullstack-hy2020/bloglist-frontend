@@ -1,9 +1,10 @@
 import { useState, useRef } from "react";
+import { useDispatch } from "react-redux";
 import Togglable from "../shared/Togglable";
 import { setNotification } from "../shared/reducers/notificationReducer";
-import { useDispatch } from "react-redux";
+import { create } from "./reducers/blogsReducer";
 
-const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
+const BlogForm = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
@@ -19,7 +20,7 @@ const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
     newBlogRef.current.toggleVisibility();
   };
 
-  const create = async (event) => {
+  const createBlog = async (event) => {
     event.preventDefault();
 
     const newBlog = {
@@ -32,11 +33,8 @@ const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
     let message = "Blog created successfully";
 
     try {
-      const blog = await createBlog(newBlog);
-
-      const newBlogs = [...existingBlogs, blog];
-
-      setBlogs(newBlogs);
+      console.log(newBlog);
+      await dispatch(create(newBlog));
       clearInputs();
     } catch {
       type = "error";
@@ -58,7 +56,7 @@ const BlogForm = ({ setBlogs, existingBlogs, createBlog }) => {
       <Togglable buttonId="new-blog" buttonLabel={"New Blog"} ref={newBlogRef}>
         <h3>New Blog</h3>
 
-        <form onSubmit={create}>
+        <form onSubmit={createBlog}>
           <div>
             <label htmlFor="title-input">Title:</label>
             <input

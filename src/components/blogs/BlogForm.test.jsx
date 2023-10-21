@@ -21,13 +21,7 @@ describe("<BlogForm />", () => {
       return blog;
     });
 
-    render(
-      <BlogForm
-        setBlogs={mockSet}
-        existingBlogs={[]}
-        createBlog={mockCreate}
-      />,
-    );
+    render(<BlogForm existingBlogs={[]} createBlog={mockCreate} />);
 
     const titleInput = screen.getByLabelText("Title:");
     const authorInput = screen.getByLabelText("Author:");
