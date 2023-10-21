@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
-import blogsService from "./services/blogsService";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
 import { setNotification } from "../shared/reducers/notificationReducer";
-import { remove } from "./reducers/blogsReducer";
+import { remove, like, getAll } from "./reducers/blogsReducer";
 
 const BlogList = () => {
   const [username, setUsername] = useState("");
-  const [render, setRender] = useState(true);
 
-  const blogs = useSelector((state) => state.blogs);
+  const blogs = useSelector((state) => _.orderBy(state.blogs, "likes", "desc"));
   const dispatch = useDispatch();
 
   useEffect(() => {
     const { username } = JSON.parse(window.localStorage.getItem("user"));
     setUsername(username);
-  }, [render]);
+
+    dispatch(getAll());
+  }, []);
 
   const deleteBlog = (blog) => () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
@@ -40,10 +40,7 @@ const BlogList = () => {
     }
   };
 
-  const likeBlog = async (blog) => {
-    await blogsService.update(blog.id, { likes: blog.likes });
-    setRender(!render);
-  };
+  const likeBlog = (blog) => () => dispatch(like(blog));
 
   return (
     <div>
