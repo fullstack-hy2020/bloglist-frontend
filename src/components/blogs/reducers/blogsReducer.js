@@ -1,23 +1,19 @@
+import { createSlice } from "@reduxjs/toolkit";
 import blogsService from "../services/blogsService";
 
-const blogsReducer = (state, action) => {
-  switch (action.type) {
-    case "GET_ALL":
-      break;
+const initialState = [];
 
-    case "GET":
-      break;
+const blogsSlice = createSlice({
+  name: "blogs",
+  initialState,
+  reducers: {
+    getAll: async (state) => (state = await blogsService.getAll()),
+    create: () => {},
+    update: () => {},
+    delete: () => {},
+  },
+});
 
-    case "CREATE":
-      break;
+export const { getAll } = blogsSlice.actions;
 
-    case "UPDATE":
-      break;
-
-    case "DELETE":
-      break;
-
-    default:
-      break;
-  }
-};
+export default blogsSlice.reducer;
