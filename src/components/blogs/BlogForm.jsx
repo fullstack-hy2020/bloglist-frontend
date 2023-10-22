@@ -22,6 +22,10 @@ const BlogForm = () => {
       url,
     };
 
+    event.target.title.value = "";
+    event.target.author.value = "";
+    event.target.url.value = "";
+
     dispatch(create(newBlog))
       .then(() => {
         dispatch(
