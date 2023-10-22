@@ -84,6 +84,17 @@ describe("BlogList app", function () {
       cy.contains(`${blog.title} ${blog.author}`);
     });
 
+    it("does not allow user to create blog with invalid author", function () {
+      cy.get("#new-blog-toggle").click();
+      cy.get("#title-input").type(blog.title);
+      cy.get("#author-input").type("t");
+      cy.get("#url-input").type(blog.url);
+      cy.get("#create-button").click();
+
+      cy.contains("Failed to create blog");
+      cy.get(".blog").should("not.exist");
+    });
+
     it("allows user to like a blog", function () {
       cy.get("#new-blog-toggle").click();
       cy.get("#title-input").type(blog.title);
