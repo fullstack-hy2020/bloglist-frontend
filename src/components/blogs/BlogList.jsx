@@ -16,22 +16,23 @@ const BlogList = () => {
 
   const deleteBlog = (blog) => () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      let type = "success";
-      let message = "Blog deleted successfully";
-
-      try {
-        dispatch(remove(blog));
-      } catch {
-        type = "error";
-        message = "Failed to delete blog";
-      } finally {
-        dispatch(
-          setNotification({
-            message,
-            type,
-          })
+      dispatch(remove(blog))
+        .then(() => {
+          dispatch(
+            setNotification({
+              message: "Blog deleted successfully",
+              type: "success",
+            })
+          );
+        })
+        .catch((error) =>
+          dispatch(
+            setNotification({
+              message: error,
+              type: "error",
+            })
+          )
         );
-      }
     }
   };
 

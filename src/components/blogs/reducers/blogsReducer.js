@@ -36,8 +36,12 @@ export const getAll = () => async (dispatch) => {
 };
 
 export const remove = (blog) => async (dispatch) => {
-  await blogsService.del(blog);
-  dispatch(removeById(blog.id));
+  try {
+    await blogsService.del(blog);
+    dispatch(removeById(blog.id));
+  } catch {
+    throw "Failed to delete blog";
+  }
 };
 
 export const like = (blog) => async (dispatch) => {
