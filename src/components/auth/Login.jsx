@@ -1,23 +1,25 @@
-import { setNotification } from "../shared/reducers/notificationReducer";
+import {
+  useNotificationDispatch,
+  showNotification,
+} from "../shared/contexts/NotificationContext";
 import { login } from "./reducers/authReducer";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const notificationDispatch = useNotificationDispatch();
 
   const loginUser = (event) => {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
 
-    dispatch(login(username, password)).catch((error) =>
-      dispatch(
-        setNotification({
-          message: error,
-          type: "error",
-        })
-      )
-    );
+    dispatch(login(username, password)).catch((error) => {
+      showNotification(notificationDispatch, {
+        message: error,
+        type: "error",
+      });
+    });
   };
 
   return (

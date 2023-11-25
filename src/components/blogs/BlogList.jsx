@@ -3,12 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
-import { setNotification } from "../shared/reducers/notificationReducer";
 import { remove, like, getAll } from "./reducers/blogsReducer";
+import {
+  useNotificationDispatch,
+  showNotification,
+} from "../shared/contexts/NotificationContext";
 
 const BlogList = () => {
   const blogs = useSelector((state) => _.orderBy(state.blogs, "likes", "desc"));
   const dispatch = useDispatch();
+  const notificationDispatch = useNotificationDispatch();
 
   useEffect(() => {
     dispatch(getAll());
@@ -18,21 +22,17 @@ const BlogList = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       dispatch(remove(blog))
         .then(() => {
-          dispatch(
-            setNotification({
-              message: "Blog deleted successfully",
-              type: "success",
-            })
-          );
+          showNotification(notificationDispatch, {
+            message: "Blog deleted successfully.",
+            type: "success",
+          });
         })
-        .catch((error) =>
-          dispatch(
-            setNotification({
-              message: error,
-              type: "error",
-            })
-          )
-        );
+        .catch((error) => {
+          showNotification(notificationDispatch, {
+            message: error,
+            type: "error",
+          });
+        });
     }
   };
 

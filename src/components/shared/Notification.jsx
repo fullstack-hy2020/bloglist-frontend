@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
+import { useNotificationObject } from "./contexts/NotificationContext";
 
 const Notification = () => {
-  const { display, type, message } = useSelector((state) => state.notification);
+  const notification = useNotificationObject();
 
   const style = {
     background: "lightgrey",
@@ -10,7 +10,7 @@ const Notification = () => {
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    display: display,
+    display: notification.display,
   };
 
   const styles = {
@@ -25,8 +25,8 @@ const Notification = () => {
   };
 
   return (
-    <div id="notification" style={styles[type]}>
-      {message}
+    <div id="notification" style={styles[notification.type]}>
+      {notification.message}
     </div>
   );
 };

@@ -1,11 +1,15 @@
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import Togglable from "../shared/Togglable";
-import { setNotification } from "../shared/reducers/notificationReducer";
 import { create } from "./reducers/blogsReducer";
+import {
+  useNotificationDispatch,
+  showNotification,
+} from "../shared/contexts/NotificationContext";
 
 const BlogForm = () => {
   const dispatch = useDispatch();
+  const notificationDispatch = useNotificationDispatch();
 
   const newBlogRef = useRef();
 
@@ -28,22 +32,18 @@ const BlogForm = () => {
 
     dispatch(create(newBlog))
       .then(() => {
-        dispatch(
-          setNotification({
-            message: "Blog created successfully",
-            type: "success",
-          })
-        );
+        showNotification(notificationDispatch, {
+          message: "Blog created successfully.",
+          type: "success",
+        });
         newBlogRef.current.toggleVisibility();
       })
-      .catch((error) =>
-        dispatch(
-          setNotification({
-            message: error,
-            type: "error",
-          })
-        )
-      );
+      .catch((error) => {
+        showNotification(notificationDispatch, {
+          message: error,
+          type: "error",
+        });
+      });
   };
 
   return (
