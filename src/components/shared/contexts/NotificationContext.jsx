@@ -35,7 +35,6 @@ export const useNotificationObject = () => useContext(NotificationContext)[0];
 export const useNotificationDispatch = () => useContext(NotificationContext)[1];
 
 export const showNotification = (dispatch, payload) => {
-  console.log(payload);
   dispatch({
     type: "SHOW",
     payload: payload,

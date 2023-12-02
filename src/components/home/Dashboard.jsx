@@ -1,17 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
+import { Routes, Route, Link, useNavigate, useMatch } from "react-router-dom";
 import BlogList from "../blogs/BlogList";
 import UserList from "../users/UserList";
+import User from "../users/User";
 import Notification from "../shared/Notification";
 import { logout } from "../auth/reducers/authReducer";
 
-const Menu = ({ auth }) => {
+const Menu = ({ user }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -35,7 +30,7 @@ const Menu = ({ auth }) => {
       <Link to="/users" style={padding}>
         users
       </Link>
-      <text style={padding}>{auth.user.name}</text>
+      <text style={padding}>{user.name}</text>
       <button style={padding} onClick={handleLogout}>
         logout
       </button>
@@ -45,19 +40,26 @@ const Menu = ({ auth }) => {
 
 const Dashboard = () => {
   const auth = useSelector((state) => state.auth);
+  const users = useSelector((state) => state.users);
+
+  const match = useMatch("/users/:id");
+  const matchedUser = match
+    ? users.find((user) => user.id === match.params.id)
+    : null;
 
   if (auth === null) return;
 
   return (
-    <Router>
-      <Menu auth={auth} />
+    <div>
+      <Menu user={auth.user} />
       <Notification />
 
       <Routes>
         <Route path="/" element={<BlogList />} />
-        <Route path="/users" element={<UserList />} />
+        <Route path="/users" element={<UserList users={users} />} />
+        <Route path="/users/:id" element={<User user={matchedUser} />} />
       </Routes>
-    </Router>
+    </div>
   );
 };
 
