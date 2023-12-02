@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import _ from "lodash";
 import Blog from "./Blog";
 import BlogForm from "./BlogForm";
@@ -9,8 +10,7 @@ import {
   showNotification,
 } from "../shared/contexts/NotificationContext";
 
-const BlogList = () => {
-  const blogs = useSelector((state) => _.orderBy(state.blogs, "likes", "desc"));
+const BlogList = ({ blogs }) => {
   const dispatch = useDispatch();
   const notificationDispatch = useNotificationDispatch();
 
@@ -45,12 +45,15 @@ const BlogList = () => {
       <h3>Saved Blogs</h3>
       <div>
         {blogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            deleteBlog={deleteBlog}
-            likeBlog={likeBlog}
-          />
+          <Link to={`/blogs/${blog.id}`}>
+            {blog.title} {blog.author}
+          </Link>
+          // <Blog
+          //   key={blog.id}
+          //   blog={blog}
+          //   deleteBlog={deleteBlog}
+          //   likeBlog={likeBlog}
+          // />
         ))}
       </div>
     </div>
