@@ -1,3 +1,4 @@
+import Notification from "../shared/Notification";
 import {
   useNotificationDispatch,
   showNotification,
@@ -25,6 +26,7 @@ const Login = () => {
   return (
     <div>
       <h2>Log in</h2>
+      <Notification />
       <form onSubmit={loginUser}>
         <div>
           <label htmlFor="username">Username:</label>

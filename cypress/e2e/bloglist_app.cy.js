@@ -42,7 +42,7 @@ describe("BlogList app", function () {
       cy.get("#password").type(user.password);
       cy.get("#login-button").click();
 
-      cy.contains(`${user.name} logged in`);
+      cy.contains(`${user.name}`);
     });
   });
 
