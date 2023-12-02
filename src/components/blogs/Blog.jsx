@@ -1,67 +1,58 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  useNotificationDispatch,
+  showNotification,
+} from "../shared/contexts/NotificationContext";
+import { remove, like } from "./reducers/blogsReducer";
 
-const Blog = ({ blog, deleteBlog, likeBlog }) => {
+const Blog = ({ blog }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const auth = useSelector((state) => state.auth);
-  const [detailedView, setDetailedView] = useState(false);
-  const [content, setContent] = useState("");
+  const notificationDispatch = useNotificationDispatch();
 
   const className = "blog";
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
-  const toggleDetails = () => {
-    setDetailedView(!detailedView);
-  };
-
-  useEffect(() => {
-    let content = "";
-
-    if (detailedView) {
-      content = (
-        <div style={blogStyle} className={`${className}-detailed`}>
-          <div>
-            {blog.title} {blog.author}{" "}
-            <button id={"hide-blog-button"} onClick={toggleDetails}>
-              hide
-            </button>
-          </div>
-          <div className={`${className}-url`}>{blog.url}</div>
-          <div id={`${className}-likes`} className={`${className}-likes`}>
-            {blog.likes}
-          </div>
-          <button id="like-button" onClick={likeBlog(blog)}>
-            like
-          </button>
-          <div className={`${className}-user`}>{blog.user.name}</div>
-          {blog.user.username === auth.user.username && (
-            <button id="remove-button" onClick={deleteBlog(blog)}>
-              remove
-            </button>
-          )}
-        </div>
-      );
-    } else {
-      content = (
-        <div style={blogStyle} className={className}>
-          {blog.title} {blog.author}{" "}
-          <button id="view-button" onClick={toggleDetails}>
-            view
-          </button>
-        </div>
-      );
+  const deleteBlog = (blog) => () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
+      dispatch(remove(blog))
+        .then(() => {
+          showNotification(notificationDispatch, {
+            message: "Blog deleted successfully.",
+            type: "success",
+          });
+        })
+        .catch((error) => {
+          showNotification(notificationDispatch, {
+            message: error,
+            type: "error",
+          });
+        });
+      navigate("/blogs");
     }
+  };
 
-    setContent(content);
-  }, [blog, detailedView]);
+  const likeBlog = (blog) => () => dispatch(like(blog));
 
-  return content;
+  return (
+    <div className={`${className}`}>
+      <h3>{blog.title}</h3>
+      <div className={`${className}-url`}>{blog.url}</div>
+      <div id={`${className}-likes`} className={`${className}-likes`}>
+        {blog.likes} likes
+      </div>
+      <button id="like-button" onClick={likeBlog(blog)}>
+        like
+      </button>
+      <div>added by {blog.author}</div>
+      {blog.user.username === auth.user.username && (
+        <button id="remove-button" onClick={deleteBlog(blog)}>
+          remove
+        </button>
+      )}
+    </div>
+  );
 };
 
 export default Blog;
