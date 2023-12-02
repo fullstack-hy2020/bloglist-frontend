@@ -12,7 +12,7 @@ const UserList = ({ users }) => {
 
   return (
     <div>
-      <h3>Users</h3>
+      <h2>Users</h2>
       <table>
         <tr>
           <th></th>

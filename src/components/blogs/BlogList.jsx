@@ -40,6 +40,7 @@ const BlogList = () => {
 
   return (
     <div>
+      <h2>blogs</h2>
       <BlogForm />
       <h3>Saved Blogs</h3>
       <div>
