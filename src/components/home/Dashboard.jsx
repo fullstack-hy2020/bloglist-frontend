@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import BlogList from "../blogs/BlogList";
+import UserList from "../users/UserList";
 import Notification from "../shared/Notification";
 import { logout } from "../auth/reducers/authReducer";
 
@@ -42,6 +43,7 @@ const Dashboard = () => {
 
       <Routes>
         <Route path="/" element={<BlogList />} />
+        <Route path="/users" element={<UserList />} />
       </Routes>
     </Router>
   );
