@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, useNavigate, useMatch } from "react-router-dom";
+import _ from "lodash";
+import { logout } from "../auth/reducers/authReducer";
 import BlogList from "../blogs/BlogList";
+import Blog from "../blogs/Blog";
 import UserList from "../users/UserList";
 import User from "../users/User";
 import Notification from "../shared/Notification";
-import { logout } from "../auth/reducers/authReducer";
 
 const Menu = ({ user }) => {
   const dispatch = useDispatch();
@@ -21,9 +23,6 @@ const Menu = ({ user }) => {
 
   return (
     <div>
-      <Link to="/" style={padding}>
-        Blogger
-      </Link>
       <Link to="/blogs" style={padding}>
         blogs
       </Link>
@@ -40,12 +39,16 @@ const Menu = ({ user }) => {
 
 const Dashboard = () => {
   const auth = useSelector((state) => state.auth);
+  const blogs = useSelector((state) => _.orderBy(state.blogs, "likes", "desc"));
   const users = useSelector((state) => state.users);
 
-  const match = useMatch("/users/:id");
-  const matchedUser = match
-    ? users.find((user) => user.id === match.params.id)
-    : null;
+  const matchObjectByRoute = (route, list) => {
+    const match = useMatch(route);
+    return match ? list.find((object) => object.id === match.params.id) : null;
+  };
+
+  const matchedUser = matchObjectByRoute("/users/:id", users);
+  const matchedBlog = matchObjectByRoute("/blogs/:id", blogs);
 
   if (auth === null) return;
 
@@ -55,7 +58,8 @@ const Dashboard = () => {
       <Notification />
 
       <Routes>
-        <Route path="/" element={<BlogList />} />
+        <Route path="/blogs" element={<BlogList blogs={blogs} />} />
+        <Route path="/blogs/:id" element={<Blog blog={matchedBlog} />} />
         <Route path="/users" element={<UserList users={users} />} />
         <Route path="/users/:id" element={<User user={matchedUser} />} />
       </Routes>

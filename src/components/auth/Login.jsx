@@ -5,9 +5,11 @@ import {
 } from "../shared/contexts/NotificationContext";
 import { login } from "./reducers/authReducer";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const notificationDispatch = useNotificationDispatch();
 
   const loginUser = (event) => {
@@ -21,6 +23,8 @@ const Login = () => {
         type: "error",
       });
     });
+
+    navigate("/blogs");
   };
 
   return (
