@@ -1,5 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import BlogList from "../blogs/BlogList";
 import UserList from "../users/UserList";
 import Notification from "../shared/Notification";
@@ -7,6 +13,12 @@ import { logout } from "../auth/reducers/authReducer";
 
 const Menu = ({ auth }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
 
   const padding = {
     paddingRight: 5,
@@ -24,7 +36,7 @@ const Menu = ({ auth }) => {
         users
       </Link>
       <text style={padding}>{auth.user.name}</text>
-      <button style={padding} onClick={() => dispatch(logout())}>
+      <button style={padding} onClick={handleLogout}>
         logout
       </button>
     </div>
