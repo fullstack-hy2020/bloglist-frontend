@@ -40,16 +40,17 @@ const App = () => {
       window.localStorage.setItem(
         'loggedPlokiappUser', JSON.stringify(user)
       )
+      setNotification('Login successful')
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setNotification('ERROR: Wrong credentials')
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
+      setNotification('ERROR: Wrong username or password')
     }
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
 
   const addBlog = async (event) => {
@@ -63,11 +64,15 @@ const App = () => {
     await blogService
       .create(blogObject)
       .then(returnedBlog => {
-      setBlogs(blogs.concat(returnedBlog))
-      setNewTitle('')
-      setNewAuthor('')
-      setNewUrl('')
-    })
+        setNotification(`"${newTitle}" by ${newAuthor} was added to list`)
+        setBlogs(blogs.concat(returnedBlog))
+        setNewTitle('')
+        setNewAuthor('')
+        setNewUrl('')
+      })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
   }
 
   const handleUsernameChange = (event) => {
@@ -133,6 +138,7 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
+      <Notification message={notification} />
       <div className="user">
         {user.name} logged in
         <button onClick={logoutButton}>logout</button>

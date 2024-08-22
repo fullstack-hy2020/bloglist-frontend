@@ -1,11 +1,12 @@
 .success {
   color: rgb(50, 124, 96);
   background: rgb(213, 242, 230);
-  font-size: 20px;
+  font-size: 15px;
   border-style: solid;
   border-radius: 5px;
-  padding: 10px;
+  padding: 5px;
   margin: 20px 0px;
+  max-width: 50%;
 }
 
 .error {
@@ -23,11 +24,9 @@
   color: rgb(143, 130, 46);
   background: rgb(242, 236, 213);
   font-size: 15px;
-  border-style: solid;
-  border-radius: 5px;
   padding: 5px;
   margin: 20px 0px;
-  max-width: 50%;
+  max-width: 100%;
 }
 
 .bloglist {
