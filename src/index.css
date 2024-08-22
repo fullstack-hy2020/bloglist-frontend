@@ -1,0 +1,31 @@
+.success {
+  color: rgb(50, 124, 96);
+  background: rgb(213, 242, 230);
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 0px;
+}
+
+.error {
+  color: rgb(143, 46, 46);
+  background: rgb(242, 213, 213);
+  font-size: 15px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 20px 0px;
+  max-width: 50%;
+}
+
+.user {
+  color: rgb(143, 130, 46);
+  background: rgb(242, 236, 213);
+  font-size: 15px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 20px 0px;
+  max-width: 50%;
+}
