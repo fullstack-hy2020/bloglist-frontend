@@ -9,12 +9,21 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedPlokiappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      //blogService.setToken(user.token)
+    }
   }, [])
 
   const handleLogin = async (event) => {
@@ -23,13 +32,16 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+      window.localStorage.setItem(
+        'loggedPlokiappUser', JSON.stringify(user)
+      )
       setUser(user)
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong credentials')
+      setNotification('ERROR: Wrong credentials')
       setTimeout(() => {
-        setErrorMessage(null)
+        setNotification(null)
       }, 5000)
     }
   }
@@ -58,12 +70,24 @@ const App = () => {
     </form>
   )
 
-  const ErrorNotification = ({ message }) => {
+  const logoutButton = () => {
+    window.localStorage.removeItem('loggedPlokiappUser')
+    setUser(null)
+  }
+
+  const Notification = ({ message }) => {
     if (message === null) {
       return null
+    }
+    if (message.includes("ERROR")) {
+      return (
+        <div className="error">
+          {message}
+        </div>
+      )
     } else {
         return (
-          <div className="error">
+          <div className="success">
             {message}
           </div>
         )
@@ -74,7 +98,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <ErrorNotification message={errorMessage} />
+        <Notification message={notification} />
         {loginForm()}
       </div>
     )
@@ -83,7 +107,10 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <div className="user">{user.name} logged in</div>
+      <div className="user">
+        {user.name} logged in
+        <button onClick={logoutButton}>logout</button>
+        </div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
