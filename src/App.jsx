@@ -60,6 +60,9 @@ const App = () => {
         setNotification(`"${returnedBlog.title}" by ${returnedBlog.author} was added to list`)
         setBlogs(blogs.concat(returnedBlog))
       })
+      .catch (error => {
+        setNotification('ERROR: all fields must be filled in and be min. 3 characters long')
+      })
     setTimeout(() => {
       setNotification(null)
     }, 5000)
