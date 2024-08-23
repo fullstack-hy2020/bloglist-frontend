@@ -68,6 +68,23 @@ const App = () => {
     }, 5000)
   }
 
+  const updateLikes = (blog) => {
+    console.log('blog', blog.id)
+    const updatedBlog = {
+      ...blog,
+      likes: blog.likes + 1,
+      user: blog.user.id
+    }
+    console.log('updated', updatedBlog)
+
+    blogService
+      .update(blog.id, updatedBlog)
+      .then(returnedBlog => {
+        console.log('returnedBlog', returnedBlog)
+        setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : returnedBlog))
+      })
+  }
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   }
@@ -129,7 +146,7 @@ const App = () => {
       </Togglable>
       <div className='bloglist'>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} updateLikes={() => updateLikes(blog)}/>
         )}
       </div>
     </div>

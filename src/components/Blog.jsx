@@ -1,14 +1,7 @@
 import { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateLikes }) => {
   const [blogVisible, setBlogVisible] = useState(false);
-
-  const hideWhenVisible = { display: blogVisible ? 'none' : '' }
-  const showWhenVisible = { display: blogVisible ? '' : 'none' }
-
-  const toggleVisibility = () => {
-    setBlogVisible(!blogVisible)
-  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -19,6 +12,13 @@ const Blog = ({ blog }) => {
     maxWidth: 500
   }
 
+  const hideWhenVisible = { display: blogVisible ? 'none' : '' }
+  const showWhenVisible = { display: blogVisible ? '' : 'none' }
+
+  const toggleVisibility = () => {
+    setBlogVisible(!blogVisible)
+  }
+
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible}>
@@ -27,7 +27,7 @@ const Blog = ({ blog }) => {
       <div style={showWhenVisible}>
       <strong>{blog.title}</strong> by {blog.author} <button onClick={toggleVisibility}>hide</button><br />
       Url: {blog.url}<br />
-      Likes: {blog.likes} <button>like</button><br />
+      Likes: {blog.likes} <button onClick={updateLikes}>like</button><br />
       Added by: {blog.user.name}
       </div>
     </div>
