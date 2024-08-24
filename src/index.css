@@ -32,3 +32,40 @@
 .bloglist {
   margin-top: 30px;
 }
+
+.likeButton {
+  background-color:rgb(117, 165, 210);
+  border-color: rgb(29, 87, 142);
+  color: white;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 3px;
+}
+
+.likeButton:hover {
+  background-color:rgb(29, 87, 142);
+  border-color: rgb(29, 87, 142);
+  color: white;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 3px;
+}
+
+.removeButton {
+  background-color:rgb(255, 216, 216);
+  border-color: darkred;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 3px;
+  margin-top: 10px;
+}
+
+.removeButton:hover {
+  background-color: rgb(169, 83, 83);
+  border-color: rgb(169, 83, 83);
+  color: white;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 3px;
+  margin-top: 10px;
+}

@@ -82,6 +82,30 @@ const App = () => {
       })
   }
 
+  const removeBlog = (id) => {
+    const blogToRemove = blogs.find(blog => blog.id === id)
+
+    if (window.confirm(`Remove blog "${blogToRemove.title}" by ${blogToRemove.author}?`)) {
+      blogService
+      .remove(blogToRemove.id)
+      .then(() => {
+        setBlogs(blogs.filter(blog => blog.id !== id));
+        setNotification(`Blog "${blogToRemove.title}" was removed`);
+      })
+      .catch(error => {
+        console.log('removing failed:', error)
+        if (error.response.status === 401) {
+          setNotification(`ERROR: blogs may only be removed by the user who added them`)
+        } else {
+          setNotification(`ERROR: ${error.message}`)
+        }
+      })
+    }
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+  }
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   }
