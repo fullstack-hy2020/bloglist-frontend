@@ -8,11 +8,11 @@ import loginService from './services/login'
 import './index.css'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [user, setUser] = useState(null);
-  const [notification, setNotification] = useState(null);
+  const [blogs, setBlogs] = useState([])
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState(null)
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -87,19 +87,19 @@ const App = () => {
 
     if (window.confirm(`Remove blog "${blogToRemove.title}" by ${blogToRemove.author}?`)) {
       blogService
-      .remove(blogToRemove.id)
-      .then(() => {
-        setBlogs(blogs.filter(blog => blog.id !== id));
-        setNotification(`Blog "${blogToRemove.title}" was removed`);
-      })
-      .catch(error => {
-        console.log('removing failed:', error)
-        if (error.response.status === 401) {
-          setNotification(`ERROR: blogs may only be removed by the user who added them`)
-        } else {
-          setNotification(`ERROR: ${error.message}`)
-        }
-      })
+        .remove(blogToRemove.id)
+        .then(() => {
+          setBlogs(blogs.filter(blog => blog.id !== id))
+          setNotification(`Blog "${blogToRemove.title}" was removed`)
+        })
+        .catch(error => {
+          console.log('removing failed:', error)
+          if (error.response.status === 401) {
+            setNotification('ERROR: blogs may only be removed by the user who added them')
+          } else {
+            setNotification(`ERROR: ${error.message}`)
+          }
+        })
     }
     setTimeout(() => {
       setNotification(null)
@@ -107,11 +107,11 @@ const App = () => {
   }
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+    setUsername(event.target.value)
   }
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    setPassword(event.target.value)
   }
 
   const logoutButton = () => {
@@ -123,19 +123,19 @@ const App = () => {
     if (message === null) {
       return null
     }
-    if (message.includes("ERROR")) {
+    if (message.includes('ERROR')) {
       return (
-        <div className="error">
+        <div className='error'>
           {message}
         </div>
       )
     } else {
-        return (
-          <div className="success">
-            {message}
-          </div>
-        )
-      }
+      return (
+        <div className='success'>
+          {message}
+        </div>
+      )
+    }
   }
 
   if (user === null) {
@@ -158,11 +158,11 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       <Notification message={notification} />
-      <div className="user">
+      <div className='user'>
         {user.name} logged in
         <button onClick={logoutButton}>logout</button>
       </div>
-      <Togglable buttonLabel="Add a new blog" ref={blogFormRef}>
+      <Togglable buttonLabel='Add a new blog' ref={blogFormRef}>
         <BlogForm createBlog={addBlog} />
       </Togglable>
       <div className='bloglist'>

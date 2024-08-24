@@ -8,24 +8,24 @@ const LoginForm = ({
   <form onSubmit={handleLogin}>
     <div>
       username
-        <input
-        type="text"
+      <input
+        type='text'
         value={username}
-        name="Username"
+        name='Username'
         onChange={handleUsernameChange}
       />
     </div>
     <div>
       password
-        <input
-        type="password"
+      <input
+        type='password'
         value={password}
-        name="Password"
+        name='Password'
         onChange={handlePasswordChange}
       />
     </div>
-    <button type="submit">login</button>
+    <button type='submit'>login</button>
   </form>
 )
 
-export default LoginForm;
+export default LoginForm
