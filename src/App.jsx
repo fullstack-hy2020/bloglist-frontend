@@ -52,9 +52,9 @@ const App = () => {
     }, 5000)
   }
 
-  const addBlog = async (blogObject) => {
+  const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    await blogService
+    blogService
       .create(blogObject)
       .then(returnedBlog => {
         setNotification(`"${returnedBlog.title}" by ${returnedBlog.author} was added to list`)
@@ -69,18 +69,15 @@ const App = () => {
   }
 
   const updateLikes = (blog) => {
-    console.log('blog', blog.id)
     const updatedBlog = {
       ...blog,
       likes: blog.likes + 1,
       user: blog.user.id
     }
-    console.log('updated', updatedBlog)
 
     blogService
       .update(blog.id, updatedBlog)
       .then(returnedBlog => {
-        console.log('returnedBlog', returnedBlog)
         setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : returnedBlog))
       })
   }
