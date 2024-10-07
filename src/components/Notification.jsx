@@ -1,16 +1,16 @@
-/* eslint-disable react/prop-types */
-  const Notification = ({notification}) => {
-   const { message, type}=notification;
- 
-   if (!message) {
-      return null
-    }
-    return (
-      <div className={type}>
-     
-        {message}
-      </div>
-    )
+/* eslint-disable linebreak-style */
+const Notification = ({ notification }) => {
+  const { message, type }=notification
+
+  if (!message) {
+    return null
   }
- 
-    export default  Notification
+  return (
+    <div className={type}>
+
+      {message}
+    </div>
+  )
+}
+
+export default  Notification

@@ -1,4 +1,5 @@
-import Togglable from "./Togglable";
+/* eslint-disable linebreak-style */
+import Togglable from './Togglable'
 const Blog = ({ blog, handleLike, handleRemove, user }) => {
   const blogStyle = {
     paddingTop: 10,
@@ -6,18 +7,18 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
   const incrementLike = (event) => {
-    event.preventDefault();
-    handleLike(blog);
-  };
+    event.preventDefault()
+    handleLike(blog)
+  }
 
   const deleteBlog = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (confirm(`Remove blog  ${blog.title}`)) {
-      handleRemove(blog);
+      handleRemove(blog)
     }
-  };
+  }
   return (
     <div style={blogStyle}>
       {blog.title}
@@ -30,14 +31,14 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
 
         {user.username === blog.user.username && (
           <div style={{ marginTop: 5 }}>
-            <button style={{ backgroundColor: "#0089ff" }} onClick={deleteBlog}>
+            <button style={{ backgroundColor: '#0089ff' }} onClick={deleteBlog}>
               remove
             </button>
           </div>
         )}
       </Togglable>
     </div>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

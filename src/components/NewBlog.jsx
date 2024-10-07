@@ -1,15 +1,16 @@
+/* eslint-disable linebreak-style */
 
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
 const NewBlog = ({ createNewBlog }) => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const onSubmit = (event) => {
-    event.preventDefault();
-    createNewBlog(title,author,url);
-  };
+    event.preventDefault()
+    createNewBlog(title,author,url)
+  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -48,7 +49,7 @@ const NewBlog = ({ createNewBlog }) => {
       </div>
       <button type="submit">Save</button>
     </form>
-  );
-};
+  )
+}
 
-export default NewBlog;
+export default NewBlog

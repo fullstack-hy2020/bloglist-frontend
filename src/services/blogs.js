@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
@@ -21,25 +22,25 @@ const create = async newObject => {
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
-const updateBlog= async(blog)=>{
+const updateBlog= async(blog) => {
 
   blog.likes+=1
   const config={
-    headers:{Authorization:token}
+    headers:{ Authorization:token }
   }
 
   const response=await axios.put(` ${baseUrl}/${blog.id}`,blog,config)
   return response.data
 }
 
-const deleteBlog=async(blog)=>{
- 
+const deleteBlog=async(blog) => {
+
   const config={
-    headers:{Authorization:token}
+    headers:{ Authorization:token }
   }
 
   console.log('deleted blog at service config', blog.id)
- const response =await axios.delete(` ${baseUrl}/${blog.id}`,config)
-return response
+  const response =await axios.delete(` ${baseUrl}/${blog.id}`,config)
+  return response
 }
-export default { getAll,create,setToken ,updateBlog,deleteBlog}
+export default { getAll,create,setToken ,updateBlog,deleteBlog }
