@@ -21,7 +21,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
   }
   return (
     <div style={blogStyle}>
-      {blog.title}
+    <div className='blog' >{blog.title} </div>
       <Togglable buttonLabel="view" buttonHide="hide">
         <div>{blog.url}</div>
         <div>
