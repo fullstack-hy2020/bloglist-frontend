@@ -21,6 +21,7 @@ const NewBlog = ({ createNewBlog }) => {
             type="text"
             value={title}
             name="title"
+            data-testid='title'
             id='blog-title'
             placeholder='write title content here'
             onChange={({ target }) => setTitle(target.value)}
@@ -35,6 +36,7 @@ const NewBlog = ({ createNewBlog }) => {
             value={author}
             id='blog-author'
             name="author"
+            data-testid='author'
             onChange={({ target }) => setAuthor(target.value)}
           />
         </label>
@@ -46,6 +48,7 @@ const NewBlog = ({ createNewBlog }) => {
             type="text"
             value={url}
             id='blog-url'
+            data-testid='url'
             name="url"
             onChange={({ target }) => setUrl(target.value)}
           />

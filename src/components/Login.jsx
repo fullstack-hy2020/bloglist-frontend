@@ -22,6 +22,7 @@ const Login = ({ handleLogin }) => {
               type="text"
               value={username}
               name="username"
+              data-testid="username"
               onChange={({ target }) => setUsername(target.value)}
             />
           </label>
@@ -33,6 +34,7 @@ const Login = ({ handleLogin }) => {
               type="password"
               value={password}
               name="password"
+              data-testid="password"
               onChange={({ target }) => setPassword(target.value)}
             />
           </label>
