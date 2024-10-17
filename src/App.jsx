@@ -21,11 +21,19 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
+  useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const blogs = await blogService.getAll()
-        // console.log(blogs.sort((a, b) => a.like - b.like))
-        // sortedBlogs(blogs)
         setBlogs(blogs)
       } catch (error) {
         console.error('Error fetching blogs:', error)
@@ -38,22 +46,20 @@ const App = () => {
   useEffect(() => {
     sortedBlogs(blogs),[]
   })
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-
-      setUser(user)
-      blogService.setToken(user.token)
-    }
-  }, [])
+ 
 
   const addBlog = async (title, author, url) => {
     blogFormRef.current.toggleVisibility()
     try {
-      const newBlog = await blogService.create({ title, author, url })
-      console.log(newBlog)
-      setBlogs((blogs) => blogs.concat(newBlog))
+      const result = await blogService.create({ title, author, url })
+      console.log('newBlog ', result)
+      const newBlog=result
+      newBlog.user={
+        id: result.user,
+        username:user.username
+      }
+      console.log('newBlog ', newBlog)
+      setBlogs((blogs) => blogs.concat(result))
 
 
       setNotification({
@@ -62,24 +68,31 @@ const App = () => {
       })
       setTimeout(() => {
         setNotification([])
-      }, 5000)
+      }, 3000)
     } catch (error) {
       setNotification({ message: `${error}`, type: 'error' })
       setTimeout(() => {
         setNotification([])
-      }, 5000)
+      }, 3000)
     }
   }
   const updateBlogLike=async(blog) => {
     try {
-      const updatedBlog=await blogService.updateBlog(blog)
-      sortedBlogs((blogs) => blogs.map(b => b.id===blog.id?updatedBlog:b))
+      const result=await blogService.updateBlog(blog)
+      console.log(' updated blog result ', result)
+      const updatedBlog=result
+      console.log(' updated blog result ', updatedBlog)
+      updatedBlog.user={
+        id: result.user,
+        username:user.username
+      }
+      setBlogs((blogs) => blogs.map(b => b.id===blog.id?updatedBlog:b))
 
     } catch (error) {
       setNotification({ message: `${error}`, type: 'error' })
       setTimeout(() => {
         setNotification([])
-      }, 5000)
+      }, 3000)
     }
 
   }
@@ -102,7 +115,7 @@ const App = () => {
     setNotification( message)
     setTimeout(() => {
       setNotification([])
-    }, 5000)
+    }, 3000)
   }
 
   const sortedBlogs=(blogs) => {
@@ -136,7 +149,7 @@ const App = () => {
       setNotification(myMessage)
       setTimeout(() => {
         setNotification([])
-      }, 5000)
+      }, 3000)
     }
   }
 
@@ -147,19 +160,12 @@ const App = () => {
         <Togglable buttonLabel={'Login'}>
           <Login handleLogin={onLogin} />
         </Togglable>
-        {/* <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange= {e => setUsername(e.target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={onLogin}
-          /> */}
       </div>
     )
 
   return (
     <div>
-      <h1>blogs</h1>
+      <h1>Blogs</h1>
       <Notification notification={notification} />
 
       <div>

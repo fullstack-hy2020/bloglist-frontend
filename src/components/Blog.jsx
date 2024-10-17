@@ -11,7 +11,7 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
   const incrementLike = (event) => {
     event.preventDefault()
     handleLike(blog)
-  }
+  };
 
   const deleteBlog = (event) => {
     event.preventDefault()
@@ -21,24 +21,22 @@ const Blog = ({ blog, handleLike, handleRemove, user }) => {
   }
   return (
     <div style={blogStyle}>
-    <div className='blog' >{blog.title} </div>
+      <div className="blog">{blog.title} </div>
       <Togglable buttonLabel="view" buttonHide="hide">
         <div>{blog.url}</div>
         <div>
-          likes {blog.likes} <button onClick={incrementLike}>like</button>
+          <span   data-testid='likes' className="likes"> {`likes ${blog.likes}`}</span>
+          <button onClick={incrementLike}>like</button>
         </div>
         <div>{blog.author}</div>
-
-        {user.username === blog.user.username && (
+       {user.username?.toString() === blog.user.username?.toString() && (
           <div style={{ marginTop: 5 }}>
-            <button style={{ backgroundColor: '#0089ff' }} onClick={deleteBlog}>
-              remove
-            </button>
+            <button style={{ backgroundColor: '#0089ff' }} onClick={deleteBlog}>remove</button>
           </div>
         )}
       </Togglable>
     </div>
   )
-}
+};
 
 export default Blog
