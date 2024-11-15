@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# testing
+coverage
+e2e-testing-for-blogApp

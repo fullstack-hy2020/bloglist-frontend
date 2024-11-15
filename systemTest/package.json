@@ -1,0 +1,21 @@
+{
+  "name": "systemtest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:chrom": "playwright test --project=chromium",
+    "test:report": "playwright show-report",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --project=chromium --debug",
+    "test:codegen": "playwright codegen"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "@types/node": "^22.9.0"
+  }
+}

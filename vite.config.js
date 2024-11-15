@@ -7,9 +7,17 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:3003",
+        target: "http://localhost:3030",
         changeOrigin: true,
       },
     },
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './testSetup.js',
+    coverage: {
+      provider: 'v8'
+    }
+  }
 })
