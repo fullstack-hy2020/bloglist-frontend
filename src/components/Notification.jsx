@@ -1,16 +1,17 @@
 /* eslint-disable linebreak-style */
-const Notification = ({ notification }) => {
-  const { message, type }=notification
+// NotificationList.js
+import React from 'react'
+import { useNotification } from './NotificationContext'
 
-  if (!message) {
-    return null
-  }
+
+const NotificationList = () => {
+  const { notification } = useNotification()
+  const { type, message } = notification?.notifications || {}
   return (
     <div className={type}>
-
       {message}
     </div>
   )
 }
 
-export default  Notification
+export default NotificationList

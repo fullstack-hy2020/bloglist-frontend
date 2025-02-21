@@ -22,7 +22,8 @@ const create = async newObject => {
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
-const updateBlog= async(blog) => {
+const updateBlog= async({ blog }) => {
+  console.log(' updated blog result ', blog)
 
   blog.likes+=1
   const config={
@@ -33,8 +34,8 @@ const updateBlog= async(blog) => {
   return response.data
 }
 
-const deleteBlog=async(blog) => {
-
+const deleteBlog=async({blog}) => {
+  console.log(' delete Blog  result ', blog)
   const config={
     headers:{ Authorization:token }
   }
